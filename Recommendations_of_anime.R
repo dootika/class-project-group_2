@@ -3,7 +3,7 @@ library(tidyverse)
 library(dplyr)
 
 html = read_html("https://myanimelist.net/topanime.php")
-name=html %>% html_elements(".fl-l.fs14.fw-b.anime_ranking_h3") %>% html_text()
+name = html %>% html_elements(".fl-l.fs14.fw-b.anime_ranking_h3") %>% html_text()
 link = html %>% html_elements(".hoverinfo_trigger") %>% html_attr("href")
 recommended = numeric()
 total.reviews = numeric()
