@@ -7,6 +7,7 @@ library (dplyr)
 library (rvest)
 library (stringr)
 
+
 ################################
 ## Data Preparation and Cleaning
 ################################
@@ -16,17 +17,18 @@ library (stringr)
 links_generator <- function (limit)
 {
   links <- NULL
-  for (i in seq(0, limit, by=50) ) 
+  for ( i in seq(0, limit, by=50) ) 
   {
+    print (i)
     links <- c( links, paste0("https://myanimelist.net/topanime.php?limit=",i) )
   }
-  return( links )
+  return (links)
 }
 
 # Setting the upper limit
-ulimit = 150 # (will change upper limit to 25350)
-anime_number <- 200
-#anime_number <- ulimit + 50
+ulimit = 950 # (will change upper limit to 25350)
+#anime_number <- 10
+anime_number <- ulimit + 50
 links <- links_generator (limit = ulimit)
 
 # Creating anime title, score, recommended numbers, total reviews and anime pictures' URL column
@@ -42,16 +44,16 @@ total.reviews <- NULL
 # Feeding the values into it
 for ( i in 1:length(links) )
 {
-  html <- read_html ( links[i] )
+  print (i)
+  html <- read_html (links[i])
   anime.name <- html %>% html_elements ( ".fl-l.fs14.fw-b.anime_ranking_h3 a" ) %>% html_text ()
-  anime.link <- html %>% html_elements ( ".fl-l.fs14.fw-b.anime_ranking_h3 a" ) %>% html_attr ( "href" )
-  picture.link <- html %>% html_elements ( ".lazyload" ) %>% html_attr ( "data-src" )
+  anime.link <- html %>% html_elements ( ".fl-l.fs14.fw-b.anime_ranking_h3 a" ) %>% html_attr ("href")
+  picture.link <- html %>% html_elements ( ".lazyload" ) %>% html_attr ("data-src")
   score.number <- html %>% html_elements ( ".js-top-ranking-score-col.di-ib.al span" ) %>% html_text ()
   anime.names <- c( anime.names, anime.name )
-  score.numbers <- c( score.numbers, as.numeric(score.number) )
+  score.numbers <- c( score.numbers, as.numeric (score.number) )
   anime.links <- c( anime.links, anime.link )
   picture.links <- c( picture.links, picture.link )
-  
 }
 
 ##
@@ -62,45 +64,34 @@ picture.links <- picture.links [1:anime_number]
 ##
 
 # Extracting the unique IDs from anime.links
-uids <- as.numeric( sapply ( 1:anime_number, function (i) strsplit (substring(anime.links,31), "/")[[i]][1] ) )
+uids <- as.numeric( sapply( 1:anime_number, function (i) strsplit (substring (anime.links, 31), "/")[[i]][1] ) )
 
 # Dummy Variables for more column names
-information_vec <- NULL
-type_cleaned <- NULL
-episode_cleaned <- NULL
-status_cleaned <- NULL
-aired_uncleaned <- NULL
-premiered_cleaned <- NULL
-broadcast_uncleaned <- NULL
-producers_cleaned <- NULL
-licensors_cleaned <- NULL
-studio_cleaned <- NULL
-source_cleaned <- NULL
-genre_cleaned <- NULL
-theme_cleaned <- NULL
-demographic_uncleaned <- NULL
-duration_uncleaned <- NULL
-rating_uncleaned <- NULL
-ranked_cleaned <- 1:anime_number
-popularity_cleaned <- NULL
-members_cleaned <- NULL
-favorites_cleaned <- NULL
+information_vec <- NULL; type_cleaned <- NULL
+episode_cleaned <- NULL; status_cleaned <- NULL
+aired_uncleaned <- NULL; premiered_cleaned <- NULL
+broadcast_uncleaned <- NULL; producers_cleaned <- NULL
+licensors_cleaned <- NULL; studio_cleaned <- NULL
+source_cleaned <- NULL; genre_cleaned <- NULL
+theme_cleaned <- NULL; demographic_uncleaned <- NULL
+duration_uncleaned <- NULL; rating_uncleaned <- NULL
+ranked_cleaned <- 1:anime_number; popularity_cleaned <- NULL
+members_cleaned <- NULL; favorites_cleaned <- NULL
 synonyms_cleaned <- NULL
-
 
 for ( i in 1:length(anime.links) )
 {
-  html <- read_html ( anime.links[i] )
+  html <- read_html ( url( anime.links[i], "rb") )
   print (i)
   
   # Getting the recommended no.s and total reviews column
-  recommended.number <- html %>% html_elements ( ".recommended strong" ) %>% html_text ()
-  total.review <- html %>% html_elements ( ".right strong" ) %>% html_text ()
+  recommended.number <- html %>% html_elements (".recommended strong") %>% html_text ()
+  total.review <- html %>% html_elements (".right strong") %>% html_text ()
   recommended.numbers <- c( recommended.numbers, as.numeric (recommended.number) )
   total.reviews <- c( total.reviews, as.numeric (total.review) )
   
   # Removing multiple spaces from the information variable
-  information <- html %>% html_elements ( ".spaceit_pad" ) %>% html_text ()
+  information <- html %>% html_elements (".spaceit_pad") %>% html_text ()
   information <- str_squish (information)
   len <- nchar (information)
   
@@ -110,7 +101,7 @@ for ( i in 1:length(anime.links) )
     if ( sum( grepl(words,information)==1 ) )
     return ( information[grep(words,information)] )
     else
-      return ( NA )
+      return (NA)
   }
   
   # Getting the other columns
@@ -134,26 +125,46 @@ for ( i in 1:length(anime.links) )
   members_cleaned <- c( members_cleaned, as.numeric ( gsub (",","", substring (information_finder("Members: "), 10) ) ) )
   favorites_cleaned <- c( favorites_cleaned, as.numeric ( gsub (",","", substring ( information_finder ("Favorites: "), 12) ) ) ) 
   ## (The Information Vector)
-  information_vec <- c ( information_vec, information )
+  information_vec <- c( information_vec, information )
 }
 
 # Getting season column and year of release from premiered_cleaned column
-season <- sapply( 1:anime_number, function (i) { strsplit (premiered_cleaned, " ")[[i]][1] } )
-year_of_release <- sapply( 1:anime_number, function (i) { strsplit(premiered_cleaned, " ")[[i]][2] } )
+season <- sapply ( 1:anime_number, function (i) { strsplit (premiered_cleaned, " ")[[i]][1] } )
+year_of_release <- sapply ( 1:anime_number, function (i) { strsplit(premiered_cleaned, " ")[[i]][2] } )
+
+
+# Converting broadcast uncleaned column into broadcast day and broadcast JST time column
+broadcast_day <- gsub ("s", "", sapply ( 1:anime_number, function (i) { strsplit (broadcast_uncleaned, " ")[[i]][1] } ) )
+broadcast_jp_time <- sapply ( 1:anime_number, function (i) { strsplit (broadcast_uncleaned, " ")[[i]][3] } )
 
 # Getting aired from and aired to column from aired_uncleaned column
-aired_from <- sapply( 1:anime_number, function (i) { strsplit(aired_uncleaned, " to ")[[i]][1] } )
-aired_to <- sapply( 1:anime_number, function (i) { strsplit(aired_uncleaned, " to ")[[i]][2] } )
+aired_from <- sapply ( 1:anime_number, function (i) { strsplit(aired_uncleaned, " to ")[[i]][1] } )
+aired_to <- sapply ( 1:anime_number, function (i) { strsplit(aired_uncleaned, " to ")[[i]][2] } )
+
+
+# Replacing "?" in aired_to column which indicates ongoing time to current present time
+aired_to [ grepl( "\\?", aired_to) ] = Sys.Date()
+
+# Converting aired from and aired to column to DateTime object (yyyy-mm-dd format)
+aired_from <- as.Date ( aired_from, format = "%b %d, %Y")
+aired_to <- as.Date ( aired_to, format = "%b %d, %Y")
+
+# Calculating the airing durations (from this we will find the longest running animes !~)
+airing_duration <- sapply ( 1:anime_number, function (i) { difftime (aired_to[i], aired_from[i], units="days") } )
+
+# Cleaning Duration column
+duration_uncleaned <- gsub ( "\\.", "", duration_uncleaned )
+duration_uncleaned <- gsub ( " per ep", "", duration_uncleaned )
 
 # Cleaning the genre column further
-genre_list <- sapply( 1:anime_number, function (i) { trimws( strsplit(genre_cleaned, ",")[[i]]) } )
+genre_list <- sapply ( 1:anime_number, function (i) { trimws( strsplit(genre_cleaned, ",")[[i]]) } )
 genre_matcher <- function ( incorrect_genre, correct_genre )
 {
   for ( i in 1:anime_number )
   {
     genre_list[[i]] = gsub (incorrect_genre, correct_genre, genre_list[[i]] )
   }
-  return ( genre_list )
+  return (genre_list)
 }
 
 genre_list <- genre_matcher ("ActionAction", "Action")
@@ -174,25 +185,26 @@ genre_list <- genre_matcher ("Sci-FiSci-Fi", "Sci-Fi")
 genre_list <- genre_matcher ("Boys LoveBoys Love", "Boys Love")
 genre_list <- genre_matcher ("GourmetGourmet", "Gourmet")
 genre_list <- genre_matcher ("Slice of LifeSlice of Life", "Slice of Life")
+
 genre_list <- paste ( genre_list, "," )
 leng <- nchar(genre_list)
-genre_list <- substring(genre_list,4,leng-4)
-genre_list <- gsub( "\"","", genre_list )
-genre_list[ c( grep("^\\s*$", genre_list) ) ]= NA
+genre_list <- substring (genre_list, 4, leng-4)
+genre_list <- gsub ( "\"", "", genre_list )
+genre_list[ c( grep( "^\\s*$", genre_list) ) ]= NA
 
 
 # Cleaning theme column further
-theme_list <- sapply( 1:anime_number, function (i) { trimws( strsplit(theme_cleaned, ",")[[i]] ) } )
-theme_matcher <- function ( incorrect_theme,correct_theme )
+theme_list <- sapply( 1:anime_number, function (i) { trimws ( strsplit (theme_cleaned, "," )[[i]] ) } )
+theme_matcher <- function ( incorrect_theme, correct_theme )
 {
   for ( i in 1:anime_number )
   {
-    theme_list[[i]] = gsub ( incorrect_theme, correct_theme,theme_list[[i]] )
+    theme_list[[i]] = gsub ( incorrect_theme, correct_theme, theme_list[[i]] )
   }
-  return( theme_list )
+  return ( theme_list )
 }
 
-theme_list <- theme_matcher ("Adult CastAdultCast", "Adult Cast")
+theme_list <- theme_matcher ("Adult CastAdult Cast", "Adult Cast")
 theme_list <- theme_matcher ("CrossdressingCrossdressing", "Crossdressing")
 theme_list <- theme_matcher ("GoreGore", "Gore")
 theme_list <- theme_matcher ("Idols (Male)Idols (Male)", "Idols (Male)")
@@ -244,10 +256,10 @@ theme_list <- theme_matcher ("ShowbizShowbiz", "Showbiz")
 theme_list <- theme_matcher ("Team SportsTeam Sports", "Team Sports")
 theme_list <- theme_matcher ("WorkplaceWorkplace", "Workplace")
 
-theme_list <- paste( theme_list,"," )
-leng <- nchar( theme_list )
-theme_list <- substring ( theme_list, 4, leng-4 )
-theme_list <- gsub ( "\"", "", theme_list )
+theme_list <- paste (theme_list, ",")
+leng <- nchar (theme_list)
+theme_list <- substring (theme_list, 4, leng-4)
+theme_list <- gsub ("\"", "", theme_list)
 theme_list[c( grep("^\\s*$", theme_list) ) ] = NA
 
 
@@ -271,31 +283,34 @@ demographic_list <- demographic_matcher ("ShounenShounen", "Shounen")
 # Changing "None found, add some" to NA in Licensor column !!!
 licensors_cleaned <- gsub ( "None found, add some", NA, licensors_cleaned )
 
+
 ################################
 ## Creating our Anime Dataframe
 ################################
-anime_df <- data.frame( "Unique IDs"=uids, "Ranking"=ranked_cleaned, 
-                        "Anime Title"=anime.names, "Synonyms"=synonyms_cleaned,
-                       "Score"=score.numbers, "Type"=type_cleaned, 
-                       "Source"= source_cleaned,
-                       "Episode Count"=episode_cleaned,
-                       "Status"=status_cleaned, 
-                       "Aired from"=aired_from, "Aired to"=aired_to,
-                       "Season"=season, "Release Year"=year_of_release, 
-                       "Broadcast"=broadcast_uncleaned,
-                       "Producers"=producers_cleaned, "Licensors"=licensors_cleaned,
-                       "Studio"= studio_cleaned, "Genre"=genre_list,
-                       "Theme"=theme_list, "Demographic"=demographic_list,
-                       "Duration"=duration_uncleaned,"Rating"=rating_uncleaned,
-                       "Popularity Ranking"=popularity_cleaned,
-                       "Member Views"=members_cleaned, "Favorite Marks"=favorites_cleaned,
-                       "Recommended Numbers"=recommended.numbers, "Total reviews"= total.reviews,
-                       "Anime URLs"=anime.links, "Picture URLs"=picture.links,
+
+anime_df <- data.frame( "Unique IDs" = uids, "Rank" = ranked_cleaned, 
+                        "Anime Title" = anime.names, "Synonyms" = synonyms_cleaned,
+                       "Score" = score.numbers, "Type" = type_cleaned, 
+                       "Source" = source_cleaned,
+                       "Episode Count" = episode_cleaned,
+                       "Status" = status_cleaned, 
+                       "Aired from" = aired_from, "Aired to" = aired_to, "Airing Duration (in days)" =airing_duration,
+                       "Season" = season, "Release Year" = year_of_release, 
+                       "Broadcast Day" = broadcast_day, "Broadcast JST" = broadcast_jp_time,
+                       "Producers" = producers_cleaned, "Licensors" = licensors_cleaned,
+                       "Studio" = studio_cleaned, "Genre" = genre_list,
+                       "Theme" = theme_list, "Demographic" = demographic_list,
+                       "Duration per Episode" = duration_uncleaned,"Rating" = rating_uncleaned,
+                       "Popularity Rank" = popularity_cleaned,
+                       "Members" = members_cleaned, "Favorites" = favorites_cleaned,
+                       "Recommended Votes" = recommended.numbers, "Reviews received" = total.reviews,
+                       "Anime URLs" = anime.links, "Image URLs" = picture.links,
                        stringsAsFactors = FALSE )
-View( anime_df )
+View (anime_df)
+
 
 ################################
 ## Saving the df as a csv file
 ################################
 
-write.csv(anime_df,"Anime Dataframe.csv",row.names=FALSE)
+write.csv (anime_df, "Anime Dataframe.csv", row.names=FALSE)
