@@ -17,7 +17,7 @@ library (stringr)
 links_generator <- function (limit)
 {
   links <- NULL
-  for ( i in seq(300, limit, by=50) ) 
+  for ( i in seq(0, limit, by=50) ) 
   {
     print (i)
     links <- c( links, paste0("https://myanimelist.net/topanime.php?limit=",i) )
@@ -26,9 +26,9 @@ links_generator <- function (limit)
 }
 
 # Setting the upper limit
-ulimit = 300 # (will change upper limit to 25350)
-anime_number <- 327
-#anime_number <- ulimit + 50
+ulimit = 9550 # (will change upper limit to 25350)
+#anime_number <- 12
+anime_number <- ulimit + 50
 links <- links_generator (limit = ulimit)
 
 # Creating anime title, score, recommended numbers, total reviews and anime pictures' URL column
