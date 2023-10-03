@@ -26,7 +26,7 @@ links_generator <- function (limit)
 }
 
 # Setting the upper limit
-ulimit = 9550 # (will change upper limit to 25350)
+ulimit = 950 # (will change upper limit to 25350)
 #anime_number <- 12
 anime_number <- ulimit + 50
 links <- links_generator (limit = ulimit)
@@ -82,7 +82,9 @@ scored_bys <- NULL
 
 for (i in 1:length(anime.links) )
 {
-  html <- read_html (url (anime.links[i], "rb") )
+  
+  download.file(anime.links[i], destfile = "scrapedpage.html", quiet=TRUE)
+  html <- read_html("scrapedpage.html")
   print (i)
   
   # Getting the recommended no.s, scored by and total reviews column
@@ -105,7 +107,7 @@ for (i in 1:length(anime.links) )
   information_finder <- function (words)
   {
     if (sum (grepl (words, information) == 1 ) )
-    return (information [grep (words, information)] )
+      return (information [grep (words, information)] )
     else
       return (NA)
   }
@@ -298,7 +300,7 @@ licensors_cleaned <- gsub ("None found, add some", NA, licensors_cleaned )
 ################################
 
 anime_df <- data.frame("Unique IDs" = uids, "Rank" = ranked_cleaned, 
-                        "Anime Title" = anime.names, 
+                       "Anime Title" = anime.names, 
                        "English Title" = english_title, "Synonyms" = synonyms_cleaned,
                        "Score" = score.numbers, "Scored by" = scored_bys,
                        "Type" = type_cleaned, "Source" = source_cleaned,
