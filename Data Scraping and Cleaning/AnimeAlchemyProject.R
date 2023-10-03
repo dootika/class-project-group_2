@@ -17,7 +17,7 @@ library (stringr)
 links_generator <- function (limit)
 {
   links <- NULL
-  for ( i in seq(0, limit, by=50) ) 
+  for ( i in seq(300, limit, by=50) ) 
   {
     print (i)
     links <- c( links, paste0("https://myanimelist.net/topanime.php?limit=",i) )
@@ -26,9 +26,9 @@ links_generator <- function (limit)
 }
 
 # Setting the upper limit
-ulimit = 950 # (will change upper limit to 25350)
-#anime_number <- 12
-anime_number <- ulimit + 50
+ulimit = 300 # (will change upper limit to 25350)
+anime_number <- 327
+#anime_number <- ulimit + 50
 links <- links_generator (limit = ulimit)
 
 # Creating anime title, score, recommended numbers, total reviews and anime pictures' URL column
@@ -193,6 +193,7 @@ genre_list <- genre_matcher ("Sci-FiSci-Fi", "Sci-Fi")
 genre_list <- genre_matcher ("Boys LoveBoys Love", "Boys Love")
 genre_list <- genre_matcher ("GourmetGourmet", "Gourmet")
 genre_list <- genre_matcher ("Slice of LifeSlice of Life", "Slice of Life")
+genre_list <- genre_matcher ("EcchiEcchi", "Ecchi")
 
 genre_list <- paste (genre_list, ",")
 leng <- nchar(genre_list)
@@ -215,7 +216,7 @@ theme_matcher <- function (incorrect_theme, correct_theme)
 theme_list <- theme_matcher ("Adult CastAdult Cast", "Adult Cast")
 theme_list <- theme_matcher ("CrossdressingCrossdressing", "Crossdressing")
 theme_list <- theme_matcher ("GoreGore", "Gore")
-theme_list <- theme_matcher ("Idols (Male)Idols (Male)", "Idols (Male)")
+theme_list <- theme_matcher ("Idols \\(Male\\)Idols \\(Male\\)", "Idols (Male)")
 theme_list <- theme_matcher ("Mahou ShoujoMahou Shoujo", "Mahou Shoujo")
 theme_list <- theme_matcher ("MusicMusic", "Music")
 theme_list <- theme_matcher ("Performing ArtsPerforming Arts", "Performing Arts")
@@ -255,7 +256,7 @@ theme_list <- theme_matcher ("Visual ArtsVisual Arts", "Visual Arts")
 theme_list <- theme_matcher ("SurvivalSurvival", "Survival")
 theme_list <- theme_matcher ("Combat SportsCombat Sports", "Combat Sports")
 theme_list <- theme_matcher ("Gag HumorGag Humor", "Gag Humor")
-theme_list <- theme_matcher ("Idols (Female)Idols (Female)", "Idols (Female)")
+theme_list <- theme_matcher ("Idols \\(Female\\)Idols \\(Female\\)", "Idols (Female)")
 theme_list <- theme_matcher ("Magical Sex ShiftMagical Sex Shift", "Magical Sex Shift")
 theme_list <- theme_matcher ("MilitaryMilitary", "Military")
 theme_list <- theme_matcher ("ParodyParody", "Parody")
