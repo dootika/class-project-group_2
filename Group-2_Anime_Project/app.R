@@ -5,7 +5,7 @@ MainData <- read.csv("../Data\ Scraping\ and\ Cleaning/Anime\ Dataframe.csv")
 categories <- table(MainData$Source) 
 
 library(shiny)
-
+library(ggplot2)
 # Define UI ----
 ui <- fluidPage(
   # Hosts the Title of Our Anime Page
@@ -17,11 +17,11 @@ ui <- fluidPage(
     sidebarPanel(
       h4("Sidebar Panel"),
       
-      sliderInput("bins",
-                  "Number of bins:",
+      sliderInput("EpiCount",
+                  "Maximum Number of Episodes:",
                   min = 1,
-                  max = 50,
-                  value = 30)
+                  max = 100,
+                  value = 50)
       ),
     
     
@@ -39,8 +39,10 @@ ui <- fluidPage(
 # Define server logic ----
 server <- function(input, output) {
   output$distPlot <- renderPlot({
+    subdata <- subset(MainData, MainData$Episode.Count <input$EpiCount )
     # draw the histogram with the specified number of bins
-    plot(categories)
+    ggplot(subdata, mapping = aes(Episode.Count, Score))+
+           geom_point(mapping = aes( col = Source))
   })
   
 }
