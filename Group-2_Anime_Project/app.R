@@ -16,7 +16,36 @@ ui <- fluidPage(
     # Designs the sidebar for the page (Mainly for Inputs)
     sidebarPanel(
       h4("Sidebar Panel"),
-      
+      selectInput(
+        "Source",
+        "Source of Anime",
+        unique(MainData$Source)
+      ),
+      selectInput(
+        "YaxisMetric",
+        "Comparision Parameter",
+        c("Rating",
+          "No. of Votes",
+          "Viewers",
+          "Favourites"
+          )
+      ),
+      selectInput(
+        "AgeGroup",
+        "Target Audience",
+        unique(MainData$Rating)
+      ),
+      selectInput(
+        "SubDivParam",
+        "Sub Division Parameter",
+        c(
+          "Source",
+          "Season",
+          "Broadcast Day",
+          "Genre"
+        )
+      ),
+
       sliderInput("EpiCount",
                   "Maximum Number of Episodes:",
                   min = 1,
@@ -28,7 +57,7 @@ ui <- fluidPage(
     # Designs the main panel of the main page (Mainly for plot outputs)
     mainPanel(
       # Title of the Main Panel
-      h4("main panel"),
+      h4("Main Panel"),
       
       # Plot Output - 1
       plotOutput("distPlot")
@@ -39,10 +68,24 @@ ui <- fluidPage(
 # Define server logic ----
 server <- function(input, output) {
   output$distPlot <- renderPlot({
-    subdata <- subset(MainData, MainData$Episode.Count <input$EpiCount )
-    # draw the histogram with the specified number of bins
-    ggplot(subdata, mapping = aes(Episode.Count, Score))+
-           geom_point(mapping = aes( col = Source))
+    subdata <- subset(MainData, (MainData$Episode.Count<input$EpiCount)&(MainData$Rating == input$AgeGroup) )
+    Y_Param <- switch (input$YaxisMetric,
+      Rating = subdata$Score,
+      `No. of Votes` = subdata$Scored.by,
+      Viewers = subdata$Members,
+      Favourites = subdata$Favorites
+      
+    )
+    Subdiv_Param <- switch (input$SubDivParam,
+                            `Source` = subdata$Source,
+                            `Season` = subdata$Season,
+                            `Broadcast Day` = subdata$Broadcast.Day,
+                            `Genre` = subdata$Genre
+                       
+    )
+    # draw the plot
+    ggplot(subdata, mapping = aes(Episode.Count, Y_Param))+
+           geom_point(mapping = aes( col = Subdiv_Param))
   })
   
 }
