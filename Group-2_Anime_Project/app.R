@@ -1,11 +1,13 @@
 # Reading the Data and sorting out various plot types
-MainData <- read.csv("../Data\ Scraping\ and\ Cleaning/Anime\ Dataframe.csv")
+MainData <- read.csv("../Finaldata.csv")
 
 # Categories of the anime and their frequency
 categories <- table(MainData$Source) 
 
 library(shiny)
 library(ggplot2)
+library(shinythemes)
+shinytheme("superhero")
 # Define UI ----
 ui <- fluidPage(
   # Hosts the Title of Our Anime Page
@@ -58,11 +60,17 @@ ui <- fluidPage(
     mainPanel(
       # Title of the Main Panel
       h4("Main Panel"),
+    
+      tabsetPanel(
+        tabPanel("Plot", plotOutput("distPlot")),
+        tabPanel("Summary", verbatimTextOutput("summary")),
+        tabPanel("Table", tableOutput("table"))
+      )
       
-      # Plot Output - 1
-      plotOutput("distPlot")
     )
-  )
+  ),
+  theme = shinytheme("superhero")
+  
 )
 
 # Define server logic ----
