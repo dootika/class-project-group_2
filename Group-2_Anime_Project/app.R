@@ -1,6 +1,12 @@
 # Reading the Data and sorting out various plot types
 MainData <- read.csv("../Finaldata.csv")
 
+for(i in 1:1e3){
+  ind = which.max(c(MainData$Percent.red[i],MainData$Percent.green[i],MainData$Percent.blue[i]))
+  MainData$MainCol[i] <- c("Red","Green","Blue")[ind]
+}
+
+
 # Categories of the anime and their frequency
 categories <- table(MainData$Source) 
 
@@ -43,7 +49,8 @@ ui <- fluidPage(
         c(
           "Season",
           "Broadcast Day",
-          "Genre"
+          "Genre",
+          "Predominant Poster Color"
         )
       ),
       
@@ -111,7 +118,8 @@ server <- function(input, output) {
                             `Source` = subdata$Source,
                             `Season` = subdata$Season,
                             `Broadcast Day` = subdata$Broadcast.Day,
-                            `Genre` = subdata$Genre
+                            `Genre` = subdata$Genre,
+                            `Predominant Poster Color` = subdata$MainCol
                        
     )
     # draw the plot
@@ -165,7 +173,8 @@ server <- function(input, output) {
                             `Source` = subdata$Source,
                             `Season` = subdata$Season,
                             `Broadcast Day` = subdata$Broadcast.Day,
-                            `Genre` = subdata$Genre
+                            `Genre` = subdata$Genre,
+                            `Predominant Poster Color` = subdata$MainCol
                             
     )
     # draw the plot
