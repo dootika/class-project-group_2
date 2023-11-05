@@ -6,7 +6,6 @@ for(i in 1:1e3){
   MainData$MainCol[i] <- c("Red","Green","Blue")[ind]
 }
 
-
 # Categories of the anime and their frequency
 categories <- table(MainData$Source) 
 
@@ -23,7 +22,7 @@ ui <- fluidPage(
   sidebarLayout(
     # Designs the sidebar for the page (Mainly for Inputs)
     sidebarPanel(
-      h4("Sidebar Panel"),
+      h4("Parameters"),
       selectInput(
         "Source",
         "Source of Anime",
@@ -72,12 +71,13 @@ ui <- fluidPage(
     # Designs the main panel of the main page (Mainly for plot outputs)
     mainPanel(
       # Title of the Main Panel
-      h4("Main Panel"),
+      h4("Graphs"),
     
       tabsetPanel(
         tabPanel("Scatter Plot", plotOutput("ScatPlot")),
         tabPanel("Bar Plot", plotOutput("Barplot")),
-        tabPanel("Table", tableOutput("TablePlot"))
+        tabPanel("Table", tableOutput("TablePlot")),
+        tabPanel("Pie Chart", plotOutput("PieChart"))
       )
       
     )
@@ -182,7 +182,7 @@ server <- function(input, output) {
            mapping = aes(Y_Param),
     )+
       geom_histogram(mapping = aes(col = Subdiv_Param))+
-      labs(y= "No. of Observations", x = input$YaxisMetric, col = input$SubDivParam)
+      labs(y= "No. of Observations", x = input$YaxisMetric, fill = input$SubDivParam)
   })
   
   output$TablePlot <- renderTable({
@@ -204,6 +204,26 @@ server <- function(input, output) {
       `Active Viewers` = subdata$Scored.by
     )
     newDF
+  })
+  
+  output$PieChart <- renderPlot({
+    subdata <- subset(MainData, 
+                      switch (
+                        input$XaxisMetric,
+                        `No. Of Episodes` = (MainData$Episode.Count<input$Count),
+                        `Studio` = (MainData$Studio == input$Count),
+                        `Duration per Episode` = (MainData$Duration.per.Episode<input$Count),
+                        `Broadcast Time` = TRUE
+                      )&
+                        (MainData$Rating == input$AgeGroup)&
+                        (MainData$Source == input$Source)
+    )
+    genres <- as.data.frame(table(subdata$Genre))
+    ggplot(genres, aes(x="", y=Freq, fill = Var1))+ 
+          geom_bar(stat="identity", width=1, color = "white")+ 
+          coord_polar("y", start=0)+
+          theme_void()+
+          labs(fill = "Genre")
   })
 
 }
