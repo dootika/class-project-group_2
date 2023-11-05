@@ -143,12 +143,37 @@ server <- function(input, output) {
   ))
   
   output$Barplot <- renderPlot({
+    subdata <- subset(MainData, 
+                      switch (
+                        input$XaxisMetric,
+                        `No. Of Episodes` = (MainData$Episode.Count<input$Count),
+                        `Studio` = (MainData$Studio == input$Count),
+                        `Duration per Episode` = (MainData$Duration.per.Episode<input$Count),
+                        `Broadcast Time` = TRUE
+                      )&
+                        (MainData$Rating == input$AgeGroup)&
+                        (MainData$Source == input$Source)
+    )
+    Y_Param <- switch (input$YaxisMetric,
+                       Rating = subdata$Score,
+                       `No. of Votes` = subdata$Scored.by,
+                       Viewers = subdata$Members,
+                       Favourites = subdata$Favorites
+                       
+    )
+    Subdiv_Param <- switch (input$SubDivParam,
+                            `Source` = subdata$Source,
+                            `Season` = subdata$Season,
+                            `Broadcast Day` = subdata$Broadcast.Day,
+                            `Genre` = subdata$Genre
+                            
+    )
     # draw the plot
-    ggplot(MainData, 
-           mapping = aes(MainData$Score),
+    ggplot(subdata, 
+           mapping = aes(Y_Param),
     )+
-      geom_histogram(mapping = aes(col = MainData$Genre))+
-      labs(y= "No. of Observations", x = "Rating", col = "Season")
+      geom_histogram(mapping = aes(col = Subdiv_Param))+
+      labs(y= "No. of Observations", x = input$YaxisMetric, col = input$SubDivParam)
   })
   
   output$TablePlot <- renderTable({
