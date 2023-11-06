@@ -16,7 +16,7 @@ shinytheme("superhero")
 # Define UI ----
 ui <- fluidPage(
   # Hosts the Title of Our Anime Page
-  titlePanel("Anime Analyser 4000"),
+  titlePanel("Anime Alchemy"),
   
   # Designs the Main Page Layout
   sidebarLayout(
