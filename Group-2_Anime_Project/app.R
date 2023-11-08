@@ -75,9 +75,9 @@ ui <- fluidPage(
     
       tabsetPanel(
         tabPanel("Scatter Plot", plotOutput("ScatPlot")),
-        tabPanel("Bar Plot", plotOutput("Barplot")),
-        tabPanel("Table", tableOutput("TablePlot")),
-        tabPanel("Pie Chart", plotOutput("PieChart"))
+        tabPanel("Box Plot", plotOutput("Barplot")),
+        tabPanel("Pie Chart", plotOutput("PieChart")),
+        tabPanel("Table", tableOutput("TablePlot"))
       )
       
     )
@@ -181,8 +181,8 @@ server <- function(input, output) {
     ggplot(subdata, 
            mapping = aes(Y_Param),
     )+
-      geom_histogram(mapping = aes(col = Subdiv_Param))+
-      labs(y= "No. of Observations", x = input$YaxisMetric, fill = input$SubDivParam)
+      geom_boxplot(mapping = aes(col = Subdiv_Param))+
+      labs(y= "No. of Observations", x = input$YaxisMetric, col = input$SubDivParam)
   })
   
   output$TablePlot <- renderTable({
@@ -219,6 +219,8 @@ server <- function(input, output) {
                         (MainData$Source == input$Source)
     )
     genres <- as.data.frame(table(subdata$Genre))
+    genres <- genres[order(genres$Freq,decreasing = TRUE),]
+    genres <- genres[1:5,]
     ggplot(genres, aes(x="", y=Freq, fill = Var1))+ 
           geom_bar(stat="identity", width=1, color = "white")+ 
           coord_polar("y", start=0)+
