@@ -1,13 +1,19 @@
 library(imager)
-dat <- dat [c(1:33)]
-poster <- load.image(dat$Image.URLs[1])
-poster <- as.array(poster[ , ,1, ])
+library(dplyr)
+load("Finaldata.Rdata")
+dat <- as_tibble(dat [c(1:33)])
+dat1 <- dat %>% filter(Source == "Manga")
+dat2 <- dat %>% filter(Source == "Original")
+dat3 <- dat %>% filter(Source == "Light novel")
 
+
+dat1<- dat1[1:10, ]
+dat2<- dat2[1:10, ]
+dat3<- dat3[1:10, ]
 diff.col <- function(poster, col)
 {
-  col.mat <- as.array(poster[, , 1, ])
+  col.mat <- poster
   dims <- dim(col.mat)
-  
   # Calculate distance to given color
   dist <- matrix(0, nrow = dims[1], ncol = dims[2])
   for(i in 1:dims[1])
@@ -24,17 +30,66 @@ diff.col <- function(poster, col)
 
 which.color <- function(poster)
 {
-  dist.cols <- array(0, dim = c(dim(poster)[1], dim(poster)[2], 2))
+  dist.cols <- array(0, dim = c(dim(poster)[1], dim(poster)[2], 2) )
   colors.matrix <- matrix (c(0, 0, 0, 1, 1, 1), nrow = 2, ncol = 3)  
-  for(k in 1:dim(poster)[1])
-  {
-    for (j in 1:dim(poster)[2])
-{
-print(j)  
-      dist.cols[k,j,1] <- diff.col(poster, col = colors.matrix[1, ])
-  dist.cols[k,j,2] <- diff.col(poster, col = colors.matrix[2, ])
-    }
-  }
-return(dist.cols)
+  dist.cols[ , , 1] <- diff.col(poster, col = colors.matrix[1, ])
+  dist.cols[ , ,2] <- diff.col(poster, col = colors.matrix[2, ])
+  dist.cols <- round(dist.cols, 1 )
+  return(dist.cols)
 }
 
+for  (p in 1:length(dat1$Image.URLs))
+{
+poster1 <- load.image(dat1$Image.URLs[p])
+poster1 <- as.array(poster1[ , ,1, ])
+distance1 <- which.color(poster1)
+dark1 <- sum( apply(distance1, c(1,2), function (i) i<=1.7 & i>=1.4) )
+white1 <- sum( apply(distance1, c(1,2), function (i) i<=0.3 & i>=0) )
+}
+
+for  (p in 1:length(dat2$Image.URLs))
+{
+  poster2 <- load.image(dat2$Image.URLs[p])
+  poster2 <- as.array(poster2[ , ,1, ])
+  distance2 <- which.color(poster2)
+  dark2 <- sum( apply(distance2, c(1,2), function (i) i<=1.7 & i>=1.4) )
+  white2 <- sum( apply(distance2, c(1,2), function (i) i<=0.3 & i>=0) )
+}
+
+for  (p in 1:length(dat3$Image.URLs))
+{
+  poster3 <- load.image(dat3$Image.URLs[p])
+  poster3 <- as.array(poster3[ , ,1, ])
+  distance3 <- which.color(poster3)
+  dark3 <- sum( apply(distance3, c(1,2), function (i) i<=1.7 & i>=1.4) )
+  white3 <- sum( apply(distance3, c(1,2), function (i) i<=0.3 & i>=0) )
+}
+par(mfrow = c(1,2))
+data1 <- data.frame(dark1,dark2,dark3)
+names(data1) <- c("Manga", "Original", "Light Novel")
+# plotting multiple bar plots
+barplot(as.matrix(data1),
+        main="Darkness of posters based on counts", 
+        
+        # setting y label only 
+        # because x-label will be our
+        # barplots name
+        ylab="Count", 
+        col= c("Blue","Yellow", "Green"),
+        # to plot the bars vertically
+        beside=TRUE, 
+)
+data2 <- data.frame(white1,white2,white3)
+names(data2) <- c("Manga", "Original", "Light Novel")
+# plotting multiple bar plots
+barplot(as.matrix(data2),
+        main="Whiteness of posters based on counts", 
+        
+        # setting y label only 
+        # because x-label will be our
+        # barplots name
+        ylab="Count", 
+        col= c("Blue","Yellow", "Green"),
+        # to plot the bars vertically
+        beside=TRUE, 
+)
