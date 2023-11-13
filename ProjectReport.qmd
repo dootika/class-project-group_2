@@ -91,6 +91,31 @@ The age group that the censor board of Japan deems the show safe for.
 
 ## Key Questions
 
+Here are a few questions laid down by us looking at the dataset:
+
+
+   
+-   How do we ensure that our show does well? 
+
+
+    -   What season should you release the anime in?
+    
+    -   What day of the week should you broadcast the anime?
+
+        -   During Weekends (Saturdays, Sundays)
+        -   Just before the weekends (Fridays)
+        -   Or during any other weekday
+        
+    -  How many episodes should there be per season?
+    
+    -  What should be the color composition of your poster?
+    
+        -  According to the Red, Green, Blue ( RGB % ).
+        
+    -  For a particular audience, what anime genre performs the best on an average?
+
+    -  Which studio has the best performance average?    
+
 ## Key Visualizations
 
 In our project we analysed our data and observed some visualization to know more about our data set. At first here comes our pie chart where we are categorising all the animes in different genres. Here is our pie chart
@@ -126,5 +151,20 @@ Another pie chart is here where the preferences of the juvenile audience is show
 For the juvenile audience, the scenario changes. The comedy genre appeals the most, which is pretty much evident.
 
 ## Conclusion
+
+Concluding this project we were able to build an app which would help us to make different templates of the preferred combination of different characterstic variables (genre, broadcast day, studios, etc.. ), we used in our analysis.
+
+We can notice that there is no specific combination of charactersitics which guarantees a hit anime but it depends on how the person who is making the Anime wants to make it. 
+
+
+our project focused on optimizing the success of an anime show, considering key factors such as the season of release, the day of the week, the number of episodes, and the most suitable genre for a specific target audience. We found that:
+
+1. Anime are most popular in winter and summer season. 
+2. The choice of the day for releasing episodes can impact viewership.
+3. Action and adventure genre are more popular in 17+ audience while children are more interested in comedy genre.
+4. Dark colours dominate action and horror genre whereas no clear trend could be observed in other genres.
+
+
+In essence, the success of an anime show is contingent on a meticulous blend of these factors. By strategically navigating the timing, episode count, and genre selection, we aim to optimize the viewing experience, ensuring the show not only captures the attention of the intended audience but also stands out in the competitive landscape. The culmination of these insights offers a comprehensive strategy to maximize the overall success and impact of the anime production.
 
 ## References
