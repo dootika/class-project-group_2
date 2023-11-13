@@ -27,7 +27,37 @@ The data-set that we will be using for our analysis comprises of the top 1000 An
 
 ## Key Visualizations
 
-{{< pagebreak >}}
+In our project we analysed our data and observed some visualization to know more about our data set. At first here comes our pie chart where we are categorising all the animes in different genres. Here is our pie chart
+
+![ Pie Chart showing different Genres of Anime](images/Picture1.png){width="599"}
+
+Some the key points that are specifing the data set in the pie chart are as follows;
+
+\(a\) The split looks like this across various genres for the entire data.
+
+\(b\) Action is the most prominent genre.
+
+\(c\) The distribution of data across genres is different. Hence, the sampling must be done carefully, and the inferences must be drawn accordingly.
+
+Now let us see another diagram. The following boxplots are comparing the average rating of anime grouped across various airing types.
+
+![](images/Picture2.png)
+
+From the boxplots we can clearly see that the tv has more score than any other types such as movies or ONA etc.. The second most highest score accured by the animes is special type as the median is more than any other though for the movie types, the median is more less same the special type and the 3rd quartile is higher for movies.
+
+Now let us concentrate in a comparative analysis between the acceptance of the animes according to the age groups. Here is a pie chart and some box plots, where the preferences of the genre for the 17+ audience.
+
+![](images/Picture3-01.png){width="383"}
+
+![](images/Picture4.1-02.png){fig-align="right" width="490"}
+
+From the pie chart and the box plot, we can see that for the animes with manga as their source, the action genre is more popular than the rest. Comedy, fantasy, horror and supernatural genres appeals lesser to the 17+ audience.
+
+Another pie chart is here where the preferences of the juvenile audience is shown.
+
+![](images/Picture5.png)
+
+For the juvenile audience, the scenario changes. The comedy genre appeals the most, which is pretty much evident.
 
 ## Conclusion
 
