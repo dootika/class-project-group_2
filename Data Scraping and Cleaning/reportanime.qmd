@@ -1,0 +1,129 @@
+---
+title: "ReportAnime"
+format: html
+date: 9/14/22
+editor: visual
+---
+
+## Introduction
+
+The term "Anime" refers to all animated motion pictures that are produced in Japan. This is a booming industry with an ever-increasing audience and rising popularity. Naturally, this becomes an excellent opportunity for studios to make massive profits and an exciting field for one to study.
+
+Anime Alchemy is a data visualization app that helps you analyze and compare the performance of various Anime series with several variables that define them. This application aims to help producers develop the best broadcasting and advertising model to ensure the success of their new program.
+
+However, before diving into the application, we should first understand and explore the data set.
+
+## Data
+
+The data-set that we will be using for our analysis comprises of the top 1000 Anime shows on the website [MyAnimeList](https://myanimelist.net/topanime.php).
+
+## Obtaining Data
+
+The data is scrapped from the website [MyAnimeList](https://myanimelist.net/topanime.php).
+
+The essential steps in our data preparation and cleaning are as follows:
+
+-   The `rvest` and `tidyverse` libraries contains the scrapping functions and so they were called first at the beginning of writing the code. The `stringr` library came to our rescue as it helped in removing lots of extra white spaces into a single white space.
+
+-   With the help of running loops in `R`, we iterated to multiple sub webpages of the website by changing the limits to an increment of 50, multiple website links were stored in a vector named as `links` and additional essential elements were extracted.
+
+-   To store the essential data elements required for the analysis of data, we had to name lots of dummy variables and iterating them over loops of the sub webpages thereby, replacing their garbage value with the scrapped information from the website. Helpful functions such as `gsub`, `grepl`, `sapply`, `substring`, `paste`, `strsplit,` `str_squish` and `trimws` made our data scrapping task less challenging.
+
+    1.  **`gsub`** function replaced all occurrences of patterns in character vectors with pre specified replacements.
+
+    2.  **`grepl`** function checked for presence of patterns in character vectors. It returned a logical vector which indicated the presence of patterns in each element.s
+
+    3.  **`sapply`** function was applied to a function to each element of a list or vector and simplified the result.
+
+    4.  **`substring`** function was used to extract or replace substrings from a character vector.
+
+    5.  **`paste`** function was used to concatenate multiple strings into a single string.
+
+    6.  **`strsplit`** function was used to split a character string into substrings based on a specified delimiter.
+
+    7.  **`str_squish`** function was used to remove leading, trailing and repeated white space characters from a character vector.
+
+    8.  **`trimws`** function was used to remove leading and trailing whitespaces (including spaces, tabs, and newlines) from character strings.
+
+-   The data columns were converted to their correct types. For example, numeric real valued data was converted to *numeric* type.
+
+-   Lots of incorrect entries in columns related to theme, demography and genre with the format as *"ExampleExample"* was converted into format *"Example"*.
+
+-   To calculate the airing duration between anime shows, `difftime` function was used. The i^th^ element of paired columns were imputed in its function parameter with the difference unit in week rounded upto [2 decimal places]{.underline}.
+
+-   We changed the value *"None found, add some"* to **NA** in the Licensor column.
+
+Finally, with the help of the `data.frame` function all the scrapped columns were bind horizontally and stored in a *anime_df* variable.
+
+## Biases in Our Data
+
+## Key Questions
+
+## Key Visualizations
+
+In our project we analysed our data and observed some visualization to know more about our data set. At first here comes our pie chart where we are categorising all the animes in different genres. Here is our pie chart
+
+![ Pie Chart showing different Genres of Anime](images/Picture1.png){width="599"}
+
+Some the key points that are specifing the data set in the pie chart are as follows;
+
+\(a\) The split looks like this across various genres for the entire data.
+
+\(b\) Action is the most prominent genre.
+
+\(c\) The distribution of data across genres is different. Hence, the sampling must be done carefully, and the inferences must be drawn accordingly.
+
+Now let us see another diagram. The following boxplots are comparing the average rating of anime grouped across various airing types.
+
+![](images/Picture2.png)
+
+From the boxplots we can clearly see that the tv has more score than any other types such as movies or ONA etc.. The second most highest score accured by the animes is special type as the median is more than any other though for the movie types, the median is more less same the special type and the 3rd quartile is higher for movies.
+
+Now let us concentrate in a comparative analysis between the acceptance of the animes according to the age groups. Here is a pie chart and some box plots, where the preferences of the genre for the 17+ audience.
+
+![](images/Picture3-01.png){width="383"}
+
+![](images/Picture4.1-02.png){fig-align="right" width="490"}
+
+From the pie chart and the box plot, we can see that for the animes with manga as their source, the action genre is more popular than the rest. Comedy, fantasy, horror and supernatural genres appeals lesser to the 17+ audience.
+
+Another pie chart is here where the preferences of the juvenile audience is shown.
+
+![](images/Picture5.png)
+
+For the juvenile audience, the scenario changes. The comedy genre appeals the most, which is pretty much evident.
+
+
+#### Poster Analysis of Darkness vs. Lightness of anime sources based on counts
+
+-   We calculated the Euclidean norm of the RGB vector from the purest white (R = 1, G = 1, B = 1) and purest black (R= 0, G= 0, B= 0) colours and stored it in an array of $(m\times n \times 2)$ matrices where $m,n  \, \epsilon \, \mathbb{N}$.
+
+-   After that the distance matrix was rounded upto 2 decimal places.
+
+    1.  A confidence interval was set up to distinguish a lighter or darker shade of black colour versus a lighter or darker shade of white colour.
+
+    2.  If (i,j,k)^th^ element of distance matrix lies between $[1.4,1.7]$, call it a darker shade. Such elements are counted
+
+    3.  If (i,j,k)^th^ element of distance matrix lies between $[0,0.3]$, call it a lighter shade. Such elements are counted.
+
+-   The graphical window was split using using `par(mfrow = c(1,2)).`
+
+-   A comparison bar-plot representing the counts of various dark poster anime sources was plotted.
+
+-   A comparative bar-plot representing the counts of various light posters of anime sources was plotted.
+
+## Conclusion
+
+## References
+
+1.  https://myanimelist.net/topanime.php
+
+2.  https://library.osu.edu/site/manga/manga-genres/
+
+3.  https://beebom.com/anime-types-genres-explained/
+
+4.  https://en.wikipedia.org/wiki/Anime
+
+5.  https://reelrundown.com/animation/animanga_genres
+
+6.  https://www.nypl.org/blog/2018/12/27/beginners-guide-manga
