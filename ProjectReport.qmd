@@ -15,11 +15,11 @@ However, before diving into the application, we should first understand and expl
 
 ## Data
 
-The data set we will be using for our analysis comprises the top 1000 Anime shows on the website[ MyAnimeList](https://myanimelist.net/topanime.php). We shall talk more about scrapping the data set in a later section.
+The data set we will be using for our analysis comprises the top 1000 Anime shows on the website[MyAnimeList](https://myanimelist.net/topanime.php). We shall talk more about scrapping the data set in a later section.
 
 As mentioned, the data set comprises 1000 observations described using 38 variables. We can divide these variables broadly into two categories: numerical and categorical.
 
-##### Numerical Variables: 
+##### Numerical Variables:
 
 These are the columns of our data set that have numerical values associated with them---for example, rating, number of likes, active viewers, etc.
 
@@ -57,11 +57,11 @@ We analyzed the posters for all the shows and studied the color composition of a
 
 ##### Categorical Variables:
 
-These columns of our data set have non-numerical values such as names, seasons, origins, etc. We\'ve used these values as grouping parameters to subset our data and observe various trends that emerge in such observations. Here is a brief description of all the groups that we have used:
+These columns of our data set have non-numerical values such as names, seasons, origins, etc. We've used these values as grouping parameters to subset our data and observe various trends that emerge in such observations. Here is a brief description of all the groups that we have used:
 
 1.  [**Source:**]{.underline}
 
-Every anime has a source from which it is inspired. For example, we have \"One Piece\" inspired by Manga. Similarly, other sources may include games and comics; some might be original works.
+Every anime has a source from which it is inspired. For example, we have "One Piece" inspired by Manga. Similarly, other sources may include games and comics; some might be original works.
 
 2.  [**Genre:**]{.underline}
 
@@ -77,7 +77,7 @@ The day of the week on which the show is telecasted.
 
 5.  [**Target Demographic:**]{.underline}
 
-The age section of the audience that the show is aimed at. For example, an anime series like \"Shin-chan\" is targeted toward a younger audience than compared to a series like \"Full Metal Alchemist.\"
+The age section of the audience that the show is aimed at. For example, an anime series like "Shin-chan" is targeted toward a younger audience than compared to a series like "Full Metal Alchemist."
 
 6.  [**Censorboard Rating:**]{.underline}
 
@@ -97,4 +97,4 @@ The age group that the censor board of Japan deems the show safe for.
 
 ## Conclusion
 
-## References 
+## References
