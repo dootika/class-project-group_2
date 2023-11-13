@@ -1,0 +1,34 @@
+---
+title: "Anime Alchemy"
+author: "Zehaan Naik"
+format: html
+editor: visual
+---
+
+## Introduction
+
+The term "Anime" refers to all animated motion pictures that are produced in Japan. This is a booming industry with an ever-increasing audience and rising popularity. Naturally, this becomes an excellent opportunity for studios to make massive profits and an exciting field for one to study.
+
+Anime Alchemy is a data visualization app that helps you analyze and compare the performance of various Anime series with several variables that define them. This application aims to help producers develop the best broadcasting and advertising model to ensure the success of their new program.
+
+However, before diving into the application, we should first understand and explore the data set.
+
+## Data
+
+The data-set that we will be using for our analysis comprises of the top 1000 Anime shows on the website [MyAnimeList](https://myanimelist.net/topanime.php).
+
+## Obtaining Data
+
+## Biases in Our Data
+
+{{< pagebreak >}}
+
+## Key Questions
+
+## Key Visualizations
+
+{{< pagebreak >}}
+
+## Conclusion
+
+## References 
