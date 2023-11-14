@@ -1,6 +1,6 @@
 ---
 title: "Anime Alchemy"
-author: "Zehaan Naik"
+author: "Zehaan Naik, Sneha Gupta, Sorbojit, Swapnonil"
 format: html
 editor: visual
 ---
@@ -85,11 +85,69 @@ The age group that the censor board of Japan deems the show safe for.
 
 ## Obtaining Data
 
+The data is scrapped from the website [MyAnimeList](https://myanimelist.net/topanime.php).
+
+The essential steps in our data preparation and cleaning are as follows:
+
+-   The `rvest` and `tidyverse` libraries contains the scrapping functions and so they were called first at the beginning of writing the code. The `stringr` library came to our rescue as it helped in removing lots of extra white spaces into a single white space.
+
+-   With the help of running loops in `R`, we iterated to multiple sub webpages of the website by changing the limits to an increment of 50, multiple website links were stored in a vector named as `links` and additional essential elements were extracted.
+
+-   To store the essential data elements required for the analysis of data, we had to name lots of dummy variables and iterating them over loops of the sub webpages thereby, replacing their garbage value with the scrapped information from the website. Helpful functions such as `gsub`, `grepl`, `sapply`, `substring`, `paste`, `strsplit,` `str_squish` and `trimws` made our data scrapping task less challenging.
+
+    1.  **`gsub`** function replaced all occurrences of patterns in character vectors with pre specified replacements.
+
+    2.  **`grepl`** function checked for presence of patterns in character vectors. It returned a logical vector which indicated the presence of patterns in each element.s
+
+    3.  **`sapply`** function was applied to a function to each element of a list or vector and simplified the result.
+
+    4.  **`substring`** function was used to extract or replace substrings from a character vector.
+
+    5.  **`paste`** function was used to concatenate multiple strings into a single string.
+
+    6.  **`strsplit`** function was used to split a character string into substrings based on a specified delimiter.
+
+    7.  **`str_squish`** function was used to remove leading, trailing and repeated white space characters from a character vector.
+
+    8.  **`trimws`** function was used to remove leading and trailing whitespaces (including spaces, tabs, and newlines) from character strings.
+
+-   The data columns were converted to their correct types. For example, numeric real valued data was converted to *numeric* type.
+
+-   Lots of incorrect entries in columns related to theme, demography and genre with the format as *"ExampleExample"* was converted into format *"Example"*.
+
+-   To calculate the airing duration between anime shows, `difftime` function was used. The i^th^ element of paired columns were imputed in its function parameter with the difference unit in week rounded upto [2 decimal places]{.underline}.
+
+-   We changed the value *"None found, add some"* to **NA** in the Licensor column.
+
+Finally, with the help of the `data.frame` function all the scrapped columns were bind horizontally and stored in a *anime_df* variable.
+
 ## Biases in Our Data
 
 {{< pagebreak >}}
 
 ## Key Questions
+
+Here are a few questions laid down by us looking at the dataset:
+
+-   How do we ensure that our show does well?
+
+    -   What season should you release the anime in?
+
+    -   What day of the week should you broadcast the anime?
+
+        -   During Weekends (Saturdays, Sundays)
+        -   Just before the weekends (Fridays)
+        -   Or during any other weekday
+
+    -   How many episodes should there be per season?
+
+    -   What should be the color composition of your poster?
+
+        -   According to the Red, Green, Blue ( RGB % ).
+
+    -   For a particular audience, what anime genre performs the best on an average?
+
+    -   Which studio has the best performance average?
 
 ## Key Visualizations
 
@@ -126,5 +184,18 @@ Another pie chart is here where the preferences of the juvenile audience is show
 For the juvenile audience, the scenario changes. The comedy genre appeals the most, which is pretty much evident.
 
 ## Conclusion
+
+Concluding this project we were able to build an app which would help us to make different templates of the preferred combination of different characterstic variables (genre, broadcast day, studios, etc.. ), we used in our analysis.
+
+We can notice that there is no specific combination of charactersitics which guarantees a hit anime but it depends on how the person who is making the Anime wants to make it.
+
+our project focused on optimizing the success of an anime show, considering key factors such as the season of release, the day of the week, the number of episodes, and the most suitable genre for a specific target audience. We found that:
+
+1.  Anime are most popular in winter and summer season.
+2.  The choice of the day for releasing episodes can impact viewership.
+3.  Action and adventure genre are more popular in 17+ audience while children are more interested in comedy genre.
+4.  Dark colours dominate action and horror genre whereas no clear trend could be observed in other genres.
+
+In essence, the success of an anime show is contingent on a meticulous blend of these factors. By strategically navigating the timing, episode count, and genre selection, we aim to optimize the viewing experience, ensuring the show not only captures the attention of the intended audience but also stands out in the competitive landscape. The culmination of these insights offers a comprehensive strategy to maximize the overall success and impact of the anime production.
 
 ## References

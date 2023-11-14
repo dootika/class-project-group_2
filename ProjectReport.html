@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Zehaan Naik">
+<meta name="author" content="Zehaan Naik, Sneha Gupta, Sorbojit, Swapnonil">
 
 <title>Anime Alchemy</title>
 <style>
@@ -56,7 +56,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Zehaan Naik </p>
+             <p>Zehaan Naik, Sneha Gupta, Sorbojit, Swapnonil </p>
           </div>
   </div>
     
@@ -142,6 +142,28 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="obtaining-data" class="level2">
 <h2 class="anchored" data-anchor-id="obtaining-data">Obtaining Data</h2>
+<p>The data is scrapped from the website <a href="https://myanimelist.net/topanime.php">MyAnimeList</a>.</p>
+<p>The essential steps in our data preparation and cleaning are as follows:</p>
+<ul>
+<li><p>The <code>rvest</code> and <code>tidyverse</code> libraries contains the scrapping functions and so they were called first at the beginning of writing the code. The <code>stringr</code> library came to our rescue as it helped in removing lots of extra white spaces into a single white space.</p></li>
+<li><p>With the help of running loops in <code>R</code>, we iterated to multiple sub webpages of the website by changing the limits to an increment of 50, multiple website links were stored in a vector named as <code>links</code> and additional essential elements were extracted.</p></li>
+<li><p>To store the essential data elements required for the analysis of data, we had to name lots of dummy variables and iterating them over loops of the sub webpages thereby, replacing their garbage value with the scrapped information from the website. Helpful functions such as <code>gsub</code>, <code>grepl</code>, <code>sapply</code>, <code>substring</code>, <code>paste</code>, <code>strsplit,</code> <code>str_squish</code> and <code>trimws</code> made our data scrapping task less challenging.</p>
+<ol type="1">
+<li><p><strong><code>gsub</code></strong> function replaced all occurrences of patterns in character vectors with pre specified replacements.</p></li>
+<li><p><strong><code>grepl</code></strong> function checked for presence of patterns in character vectors. It returned a logical vector which indicated the presence of patterns in each element.s</p></li>
+<li><p><strong><code>sapply</code></strong> function was applied to a function to each element of a list or vector and simplified the result.</p></li>
+<li><p><strong><code>substring</code></strong> function was used to extract or replace substrings from a character vector.</p></li>
+<li><p><strong><code>paste</code></strong> function was used to concatenate multiple strings into a single string.</p></li>
+<li><p><strong><code>strsplit</code></strong> function was used to split a character string into substrings based on a specified delimiter.</p></li>
+<li><p><strong><code>str_squish</code></strong> function was used to remove leading, trailing and repeated white space characters from a character vector.</p></li>
+<li><p><strong><code>trimws</code></strong> function was used to remove leading and trailing whitespaces (including spaces, tabs, and newlines) from character strings.</p></li>
+</ol></li>
+<li><p>The data columns were converted to their correct types. For example, numeric real valued data was converted to <em>numeric</em> type.</p></li>
+<li><p>Lots of incorrect entries in columns related to theme, demography and genre with the format as <em>“ExampleExample”</em> was converted into format <em>“Example”</em>.</p></li>
+<li><p>To calculate the airing duration between anime shows, <code>difftime</code> function was used. The i<sup>th</sup> element of paired columns were imputed in its function parameter with the difference unit in week rounded upto <u>2 decimal places</u>.</p></li>
+<li><p>We changed the value <em>“None found, add some”</em> to <strong>NA</strong> in the Licensor column.</p></li>
+</ul>
+<p>Finally, with the help of the <code>data.frame</code> function all the scrapped columns were bind horizontally and stored in a <em>anime_df</em> variable.</p>
 </section>
 <section id="biases-in-our-data" class="level2">
 <h2 class="anchored" data-anchor-id="biases-in-our-data">Biases in Our Data</h2>
@@ -149,6 +171,26 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="key-questions" class="level2">
 <h2 class="anchored" data-anchor-id="key-questions">Key Questions</h2>
+<p>Here are a few questions laid down by us looking at the dataset:</p>
+<ul>
+<li><p>How do we ensure that our show does well?</p>
+<ul>
+<li><p>What season should you release the anime in?</p></li>
+<li><p>What day of the week should you broadcast the anime?</p>
+<ul>
+<li>During Weekends (Saturdays, Sundays)</li>
+<li>Just before the weekends (Fridays)</li>
+<li>Or during any other weekday</li>
+</ul></li>
+<li><p>How many episodes should there be per season?</p></li>
+<li><p>What should be the color composition of your poster?</p>
+<ul>
+<li>According to the Red, Green, Blue ( RGB % ).</li>
+</ul></li>
+<li><p>For a particular audience, what anime genre performs the best on an average?</p></li>
+<li><p>Which studio has the best performance average?</p></li>
+</ul></li>
+</ul>
 </section>
 <section id="key-visualizations" class="level2">
 <h2 class="anchored" data-anchor-id="key-visualizations">Key Visualizations</h2>
@@ -180,6 +222,16 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Concluding this project we were able to build an app which would help us to make different templates of the preferred combination of different characterstic variables (genre, broadcast day, studios, etc.. ), we used in our analysis.</p>
+<p>We can notice that there is no specific combination of charactersitics which guarantees a hit anime but it depends on how the person who is making the Anime wants to make it.</p>
+<p>our project focused on optimizing the success of an anime show, considering key factors such as the season of release, the day of the week, the number of episodes, and the most suitable genre for a specific target audience. We found that:</p>
+<ol type="1">
+<li>Anime are most popular in winter and summer season.</li>
+<li>The choice of the day for releasing episodes can impact viewership.</li>
+<li>Action and adventure genre are more popular in 17+ audience while children are more interested in comedy genre.</li>
+<li>Dark colours dominate action and horror genre whereas no clear trend could be observed in other genres.</li>
+</ol>
+<p>In essence, the success of an anime show is contingent on a meticulous blend of these factors. By strategically navigating the timing, episode count, and genre selection, we aim to optimize the viewing experience, ensuring the show not only captures the attention of the intended audience but also stands out in the competitive landscape. The culmination of these insights offers a comprehensive strategy to maximize the overall success and impact of the anime production.</p>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
