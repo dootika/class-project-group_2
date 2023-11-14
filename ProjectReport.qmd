@@ -297,3 +297,5 @@ In essence, the success of an anime show is contingent on a meticulous blend of 
 4.  [Wikipedia page for "Anime"](https://en.wikipedia.org/wiki/Anime)
 
 5.  [A Beginners Guide to Manga](https://www.nypl.org/blog/2018/12/27/beginners-guide-manga)
+
+6.  Fundamentals of Statistics (Volume One); A.M.Gun, M.K.Gupta, B.Dasgupta; The World Press Pvt. Ltd., 2019.
