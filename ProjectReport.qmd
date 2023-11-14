@@ -95,7 +95,7 @@ The age group that the censor board of Japan deems the show safe for.
 
 In our project we analysed our data and observed some visualization to know more about our data set. At first here comes our pie chart where we are categorising all the animes in different genres. Here is our pie chart
 
-![ Pie Chart showing different Genres of Anime](images/Picture1.png){width="599"}
+![Pie Chart showing different Genres of Anime](images/Picture1.png){width="599"}
 
 Some the key points that are specifing the data set in the pie chart are as follows;
 
