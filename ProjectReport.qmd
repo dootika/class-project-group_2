@@ -1,6 +1,6 @@
 ---
 title: "Anime Alchemy"
-author: "Zehaan Naik, Sneha Gupta, Sorbojit, Swapnonil"
+author: "Zehaan Naik, Sneha Gupta, Sarbojit Das, Swapnonil Mondal"
 format: html
 editor: visual
 ---
