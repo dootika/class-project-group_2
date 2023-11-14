@@ -102,9 +102,9 @@ For the juvenile audience, the scenario changes. The comedy genre appeals the mo
 
     1.  A confidence interval was set up to distinguish a lighter or darker shade of black colour versus a lighter or darker shade of white colour.
 
-    2.  If (i,j,1)^th^ element of distance matrix lies between $[1.4,1.7]$, call it a darker shade. Such elements are counted
+    2.  If (i,j,1)^th^ element of dark distance matrix lies between $[0,0.2]$, call it a darker shade. Such elements are counted.
 
-    3.  If (i,j,2)^th^ element of distance matrix lies between $[0,0.3]$, call it a lighter shade. Such elements are counted.
+    3.  If (i,j,2)^th^ element of white distance matrix lies between $[0,0.2]$, call it a lighter shade. Such elements are counted.
 
 -   The graphical window was split using using `par(mfrow = c(1,2)).`
 
