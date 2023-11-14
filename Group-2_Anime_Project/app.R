@@ -74,9 +74,9 @@ ui <- fluidPage(
       h4("Graphs"),
     
       tabsetPanel(
-        tabPanel("Scatter Plot", plotOutput("ScatPlot")),
         tabPanel("Box Plot", plotOutput("Barplot")),
         tabPanel("Pie Chart", plotOutput("PieChart")),
+        tabPanel("Scatter Plot", plotOutput("ScatPlot")),
         tabPanel("Table", tableOutput("TablePlot"))
       )
       
@@ -226,6 +226,21 @@ server <- function(input, output) {
           coord_polar("y", start=0)+
           theme_void()+
           labs(fill = "Genre")
+  })
+  
+  output$GrayScalePlot <- renderPlot({
+    subdata <- subset(MainData, 
+                      switch (
+                        input$XaxisMetric,
+                        `No. Of Episodes` = (MainData$Episode.Count<input$Count),
+                        `Studio` = (MainData$Studio == input$Count),
+                        `Duration per Episode` = (MainData$Duration.per.Episode<input$Count),
+                        `Broadcast Time` = TRUE
+                      )&
+                        (MainData$Rating == input$AgeGroup)&
+                        (MainData$Source == input$Source)
+    )
+    
   })
 
 }

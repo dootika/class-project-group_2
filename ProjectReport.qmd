@@ -227,11 +227,34 @@ The primary aim of our analysis is to help curate an optimum broadcasting and ad
 
     -   According to the Red, Green, Blue ( RGB % )
 
-    -   Since an RGB analysis may not give us a simplistic understanding of a model approach to the problem, we also try a Dark and White theme analysis on the posters.
+    -   Since an RGB analysis does not give us a clear trend, we also try a Dark and White theme analysis on the posters.
+
+        ```{r}
+        #| echo: false
+        #| warning: false
+
+        genres <- as.data.frame(table(MainData$Genre))
+        genres <- genres[order(genres$Freq,decreasing = TRUE),]
+
+        for(i in 1:length(genres$Var1)){
+           subdata = subset(MainData,
+                            MainData$Genre == genres$Var1[i])
+           avg = mean(subdata$Percent.white)
+           genres$AvgPW[i] = avg
+           genres$AVGPB[i] = 1-avg
+         }
+
+        ggplot(genres[1:7,],
+               mapping = aes(x = Var1, y = AVGPB*100))+
+          geom_bar(stat = "identity")+
+          labs(x= "Genres", y = "Percentage Dark Composition")
+        ```
+
+        Here, we can observe interesting trends. For example the "Mystery" genre seems to have darker posters at at average. While the comedy genre has lighter posters. This enables us to think more on the lines of how light and dark colors affect our psychology and how this fact may be exploited to create a greater demand for our product.
 
 -   For a particular audience, what anime genre performs the best on an average?
 
-    -   One might assume that Manga performs better on average for a target audience of young adults. However, for a younger audience such as 5-10 year olds, originals like "Shin-Chan" and "Doraemon" might perform better.
+    -   One might assume that Manga performs better on average for a target audience of young adults. However, for a younger audience such as 5-10 year-old children, originals like "Shin-Chan" and "Doraemon" might perform better.
 
 -   Which studio has the best performance average?
 
