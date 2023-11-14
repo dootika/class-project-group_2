@@ -43,4 +43,32 @@ for(i in 1:1e3){
   dat$Percent.blue[i] <- cols[2]
   dat$Percent.green[i] <- cols[3]
 }
-write.csv(dat,file="Finaldata.csv")
+
+# Grey Scale Analysis 
+dist.gray <- function(poster)
+{
+  col.mat <- as.array(poster[, , 1, ])
+  dims <- dim(col.mat)
+  # Calculate distance to given color
+  dist <- matrix(0, nrow = dims[1], ncol = dims[2])
+  for(i in 1:dims[1])
+  {
+    for(j in 1:dims[2])
+    {
+      # distance from the col give by user
+      dist[i,j] <- (norm(col.mat[i,j, ] - c(0,0,0), "2") > 0.5)
+    }
+  }
+  # return the distance matrix of each pixel
+  out.num <- sum(dist)/ (dims[1]*dims[2])
+  return(out.num)
+}
+for(i in 1:1e3){
+  my.img <- image_read(MainData$Image.URLs[i])
+  my.img <- magick2cimg(my.img)
+  white.percent <- dist.gray(my.img)
+  MainData$Percent.white[i] <- white.percent
+  MainData$Percent.black[i] <- 1-white.percent
+}
+write.csv(MainData,file="Finaldata.csv")
+save(MainData, file = "Finaldata")

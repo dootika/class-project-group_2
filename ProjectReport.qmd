@@ -161,7 +161,7 @@ The plot clearly shows that the actual number of people who consider a particula
 
 ##### Subjectivity in The Observations
 
-Anime, or any form of artwork for that matter, is subjective. It is challenging to analyze the trends in the observations because there are so few. The \"likability\" of a show is impossible to pre-determine, and neither is the goal of this project. We strive to analyze the patterns in consumption by the masses that can be extrapolated and used to ensure the optimum reception of our product.
+Anime, or any form of artwork for that matter, is subjective. It is challenging to analyze the trends in the observations because there are so few. The "likability" of a show is impossible to pre-determine, and neither is the goal of this project. We strive to analyze the patterns in consumption by the masses that can be extrapolated and used to ensure the optimum reception of our product.
 
 However, we can assume some form of correlation between factors such as 'Number of viewers' and 'Number of Favorites' as illustrated below:
 
@@ -231,7 +231,7 @@ The primary aim of our analysis is to help curate an optimum broadcasting and ad
 
 -   For a particular audience, what anime genre performs the best on an average?
 
-    -   One might assume that Manga performs better on average for a target audience of young adults. However, for a younger audience such as 5-10 year olds, originals like \"Shin-Chan\" and \"Doraemon\" might perform better.
+    -   One might assume that Manga performs better on average for a target audience of young adults. However, for a younger audience such as 5-10 year olds, originals like "Shin-Chan" and "Doraemon" might perform better.
 
 -   Which studio has the best performance average?
 
@@ -305,11 +305,7 @@ From the pie chart and the box plot, we can see that for the animes with manga a
 Another pie chart is here where the preferences of the juvenile audience is shown.
 
 ```{r, echo=FALSE}
-<<<<<<< HEAD
 #| warning: false
-=======
-#| warning: FALSE
->>>>>>> 44877d2d0530b07940afb6dd98c1f2822918e355
 library(ggplot2)
 genres <- MainData[which((MainData$Source=="Manga") & (MainData$Rating=="PG - Children")), ]
 genres <- as.data.frame(table(genres$Genre[which(genres$Episode.Count<=50)]))
@@ -328,7 +324,7 @@ For the juvenile audience, the scenario changes. The comedy genre appeals the mo
 
 Concluding this project we were able to build an app which would help us to make different templates of the preferred combination of different characteristic variables (genre, broadcast day, studios, etc.. ), we used in our analysis.
 
-We can notice that there is no specific combination of characterisitics which guarantees a hit anime but it depends on how the person who is making the Anime wants to make it.
+We can notice that there is no specific combination of characteristics which guarantees a hit anime but it depends on how the person who is making the Anime wants to make it.
 
 our project focused on optimizing the success of an anime show, considering key factors such as the season of release, the day of the week, the number of episodes, and the most suitable genre for a specific target audience. We found that:
 

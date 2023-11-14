@@ -1,6 +1,7 @@
 library(imager)
 library(dplyr)
-load("Finaldata.Rdata")
+library(magick)
+load("../Finaldata.Rdata")
 dat <- as_tibble(dat [c(1:33)])
 dat1 <- dat %>% filter(Source == "Manga")
 dat2 <- dat %>% filter(Source == "Original")
@@ -10,7 +11,7 @@ dat3 <- dat %>% filter(Source == "Light novel")
 dat1<- dat1[1:10, ]
 dat2<- dat2[1:10, ]
 dat3<- dat3[1:10, ]
-diff.col <- function(poster, col)
+diff.col <- function(poster)
 {
   col.mat <- poster
   dims <- dim(col.mat)
@@ -38,13 +39,13 @@ which.color <- function(poster)
   return(dist.cols)
 }
 
-for  (p in 1:length(dat1$Image.URLs))
+for  (p in 1:1e3)
 {
-poster1 <- load.image(dat1$Image.URLs[p])
-poster1 <- as.array(poster1[ , ,1, ])
-distance1 <- which.color(poster1)
-dark1 <- sum( apply(distance1, c(1,2), function (i) i<=0.2 & i>=0) )
-white1 <- sum( apply(distance1, c(1,2), function (i) i<=0.2 & i>=0) )
+  my.img <- image_read(MainData$Image.URLs[p])
+  my.img <- magick2cimg(my.img)
+  poster1 <- as.array(my.img[ , ,1, ])
+  distance1 <- which.color(poster1)
+  print(distance1)
 }
 
 for  (p in 1:length(dat2$Image.URLs))
