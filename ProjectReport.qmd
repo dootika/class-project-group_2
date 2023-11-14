@@ -187,9 +187,33 @@ Here are a few questions laid down by us looking at the dataset:
 
 ## Key Visualizations
 
+```{r, echo=FALSE}
+
+MainData <- read.csv("C:/Users/Swapnonil/Downloads/Finaldata.csv")
+
+for(i in 1:1e3){
+  ind = which.max(c(MainData$Percent.red[i],MainData$Percent.green[i],MainData$Percent.blue[i]))
+  MainData$MainCol[i] <- c("Red","Green","Blue")[ind]
+}
+```
+
 In our project we analysed our data and observed some visualization to know more about our data set. At first here comes our pie chart where we are categorising all the animes in different genres. Here is our pie chart
 
+<<<<<<< HEAD
 ![Pie Chart showing different Genres of Anime](images/Picture1.png){width="599"}
+=======
+```{r, echo=FALSE}
+library(ggplot2)
+genres <- as.data.frame(table(MainData$Genre))
+genres <- genres[order(genres$Freq,decreasing = TRUE),]
+genres <- genres[1:5,]
+ggplot(genres, aes(x="", y=Freq, fill = Var1))+ 
+      geom_bar(stat="identity", width=1, color = "white")+ 
+      coord_polar("y", start=0)+
+      theme_void()+
+      labs(fill = "Genre")
+```
+>>>>>>> 524d02bdf16e50e74e77f047cf022ddebd400e52
 
 Some the key points that are specifing the data set in the pie chart are as follows;
 
@@ -201,23 +225,54 @@ Some the key points that are specifing the data set in the pie chart are as foll
 
 Now let us see another diagram. The following boxplots are comparing the average rating of anime grouped across various airing types.
 
-![](images/Picture2.png)
+```{r, echo=FALSE}
+library(ggplot2)
+ggplot(MainData,  mapping = aes(x = Score, y = Type))+
+  geom_boxplot()
+```
+
 
 From the boxplots we can clearly see that the tv has more score than any other types such as movies or ONA etc.. The second most highest score accured by the animes is special type as the median is more than any other though for the movie types, the median is more less same the special type and the 3rd quartile is higher for movies.
 
 Now let us concentrate in a comparative analysis between the acceptance of the Anime Shows according to the age groups. Here is a pie chart and some box plots, where the preferences of the genre for the 17+ audience.
 
-![](images/Picture3-01.png){width="383"}
+```{r, echo=FALSE}
+library(ggplot2)
+genres <- as.data.frame(table(MainData$Genre[which(MainData$Source=="Manga" & MainData$Rating=="R - 17+ (violence & profanity)")]))
+genres <- genres[order(genres$Freq,decreasing = TRUE),]
+genres <- genres[1:5,]
+ggplot(genres, aes(x="", y=Freq, fill = Var1))+ 
+      geom_bar(stat="identity", width=1, color = "white")+ 
+      coord_polar("y", start=0)+
+      theme_void()+
+      labs(fill = "Genre")
+```
 
-![](images/Picture4.1-02.png){fig-align="right" width="490"}
+
+```{r, echo=FALSE}
+library(ggplot2)
+manga <- as.data.frame(MainData[which(MainData$Source=="Manga"), ])
+ggplot(manga,  mapping = aes(x = Score, y = Genre))+
+  geom_boxplot()
+```
 
 From the pie chart and the box plot, we can see that for the Anime shows with manga as their source, the action genre is more popular than the rest. Comedy, fantasy, horror and supernatural genres appeals lesser to the 17+ audience.
 
 Another pie chart is here where the preferences of the juvenile audience is shown.
 
-![](images/Picture5.png)
+```{r, echo=FALSE}
+library(ggplot2)
+genres <- as.data.frame(table(MainData$Genre[which((MainData$Source=="Manga") & (MainData$Rating=="PG - Children"))]))
+genres <- genres[order(genres$Freq,decreasing = TRUE),]
+genres <- genres[1:5,]
+ggplot(genres, aes(x="", y=Freq, fill = Var1))+ 
+      geom_bar(stat="identity", width=1, color = "white")+ 
+      coord_polar("y", start=0)+
+      theme_void()+
+      labs(fill = "Genre")
+```
 
-For the juvenile audience, the scenario changes. The comedy genre appeals the most, which is pretty much evident.
+For the juvenile audience, the scenario changes. The comedy and the adventure genre appeals the most, which is pretty much evident.
 
 ## Conclusion
 
