@@ -69,7 +69,7 @@ The genre of the show. It has categories like action, adventure, drama and comed
 
 3.  [**Season of Premier:**]{.underline}
 
-What season of the year was the anime premiered in? For example, it is a common understanding that shows meant for children perform better when released in summer. This is because many children are eager to consume TV content during their vacations. 
+What season of the year was the anime premiered in? For example, it is a common understanding that shows meant for children perform better when released in summer. This is because many children are eager to consume TV content during their vacations.
 
 4.  [**Day of Telecast:**]{.underline}
 
@@ -142,7 +142,7 @@ ggplot(genres, aes(x="", y=Freq, fill = Var1))+
 
 ```
 
-We can observe that the "Action" genre contains the most data points, almost half of the entire data set. Hence, for any conclusion we make from the data based on the graphs where action comes out to be the most popular or most liked genre, we need to factor in this confounding variable of the number of observations. 
+We can observe that the "Action" genre contains the most data points, almost half of the entire data set. Hence, for any conclusion we make from the data based on the graphs where action comes out to be the most popular or most liked genre, we need to factor in this confounding variable of the number of observations.
 
 Hence, most of the analysis we present in our shiny app is on data subsetting to the user\'s needs. Also, we provide quantile analysis through box plots and base our conclusion on averages rather than the face value of data to mitigate the effect of such confounding variables.
 
@@ -200,7 +200,7 @@ for(i in 1:1e3){
 In our project we analysed our data and observed some visualization to know more about our data set. At first here comes our pie chart where we are categorising all the animes in different genres. Here is our pie chart
 
 <<<<<<< HEAD
-![Pie Chart showing different Genres of Anime](images/Picture1.png){width="599"}
+[Pie Chart showing different Genres of Anime](images/Picture1.png){width="599"}
 =======
 ```{r, echo=FALSE}
 library(ggplot2)
