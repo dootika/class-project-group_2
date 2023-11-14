@@ -33,7 +33,7 @@ This is the average rating given to the show by everyone who rated the show. An 
 
 This is the number of votes the show received on the website in a poll where users were asked about their top 10 favorite anime shows.
 
-3.  [**Number of Favourites:**]{.underline}
+3.  [**Number of Favorites:**]{.underline}
 
 This is the number of users who have marked a particular show as one of their favorites on the website.
 
@@ -85,7 +85,7 @@ The age group that the censor board of Japan deems the show safe for.
 
 ## Obtaining Data
 
-The data is scrapped from the website[ MyAnimeList](https://myanimelist.net/topanime.php).
+The data is scrapped from the website[MyAnimeList](https://myanimelist.net/topanime.php).
 
 The essential steps in our data preparation and cleaning are as follows:
 
@@ -125,7 +125,7 @@ Finally, with the help of the `data.frame` function, all the scrapped columns we
 
 ##### Non-Uniform Distribution of Observations
 
-An important thing to note about our data set is that the number of observations we have for each subcategory is not uniform. For example, consider the \"Genres\" column. Here is a plot for the distribution of observation across the top 5 genres.
+An important thing to note about our data set is that the number of observations we have for each subcategory is not uniform. For example, consider the "Genres" column. Here is a plot for the distribution of observation across the top 5 genres.
 
 ```{r}
 #| echo: false
@@ -144,7 +144,7 @@ ggplot(genres, aes(x="", y=Freq, fill = Var1))+
 
 We can observe that the "Action" genre contains the most data points, almost half of the entire data set. Hence, for any conclusion we make from the data based on the graphs where action comes out to be the most popular or most liked genre, we need to factor in this confounding variable of the number of observations.
 
-Hence, most of the analysis we present in our shiny app is on data subsetting to the user\'s needs. Also, we provide quantile analysis through box plots and base our conclusion on averages rather than the face value of data to mitigate the effect of such confounding variables.
+Hence, most of the analysis we present in our shiny app is on data subsetting to the user's needs. Also, we provide quantile analysis through box plots and base our conclusion on averages rather than the face value of data to mitigate the effect of such confounding variables.
 
 We can further substantiate the argument by the following plot:
 
@@ -159,31 +159,81 @@ ggplot(MainData, aes(x = Favorites/mean(Favorites), y = Score))+
 
 The plot clearly shows that the actual number of people who consider a particular anime to be their favorite has little correlation with the average rating that the show has on the website.
 
-{{< pagebreak >}}
+##### Subjectivity in The Observations
+
+Anime, or any form of artwork for that matter, is subjective. It is challenging to analyze the trends in the observations because there are so few. The \"likability\" of a show is impossible to pre-determine, and neither is the goal of this project. We strive to analyze the patterns in consumption by the masses that can be extrapolated and used to ensure the optimum reception of our product.
+
+However, we can assume some form of correlation between factors such as 'Number of viewers' and 'Number of Favorites' as illustrated below:
+
+```{r}
+#| echo: false
+#| warning: false
+ggplot(MainData, mapping = aes(x = Members/mean(Members), y = Favorites/mean(Favorites))) + geom_point() + xlim(0,5) + labs(x = "Normalised Number of Viewers", y = "Normalised Number of Favorites") 
+```
 
 ## Key Questions
 
-Here are a few questions laid down by us looking at the dataset:
+The primary aim of our analysis is to help curate an optimum broadcasting and advertising plan for a show that the producer wants to release. Here are some of the questions that help us explore this concept:
 
--   How do we ensure that our show does well?
+-   What season should you release the anime in?
 
-    -   What season should you release the anime in?
+    -   Does the viewership actually increase during summer time?
 
-    -   What day of the week should you broadcast the anime?
+        In the following plot we can actually observe that the average number of viewers for shows dipped for the shows that were released during the summer months. This is an interesting observation that is counter-intuitive to our original line of thought.
 
-        -   During Weekends (Saturdays, Sundays)
-        -   Just before the weekends (Fridays)
-        -   Or during any other weekday
+        ```{r}
+        #| echo: false
+        #| warning: false
+        Seasons <- as.data.frame(table(MainData$Season))
+        for(i in 1:4){
+           subdata = subset(MainData,
+                            MainData$Season == Seasons$Var1[i])
+           avg = mean((subdata$Members))
+           Seasons$Avg[i] = avg
+         }
+        ggplot(Seasons, mapping = aes(x = Var1, y = Avg/mean(Avg))) +
+          geom_bar(stat = "identity")+
+          labs(x = "Season", y = "Normalised Number of Viewers")
+        ```
 
-    -   How many episodes should there be per season?
+-   What day of the week should you broadcast the anime?
 
-    -   What should be the color composition of your poster?
+    -   During Weekends (Saturdays, Sundays)
 
-        -   According to the Red, Green, Blue ( RGB % ).
+    -   Just before the weekends (Fridays)
 
-    -   For a particular audience, what anime genre performs the best on an average?
+    -   Do week days perform better?
 
-    -   Which studio has the best performance average?
+        As Illustrated below, we don't see a clear trend when we analyse the totality of the data set. However, when we generate a similar plot for a subset of choice, then a trend might emerge, our Shiny App allows for that.
+
+        ```{r}
+        #| echo: false
+        subdata = subset(MainData,
+                         MainData$Broadcast.Day != "Not"&
+                         MainData$Broadcast.Day != "Unknown"&
+                         MainData$Broadcast.Day != "NA"
+        )
+        ggplot(subdata, 
+                mapping = aes(Members),
+         )+
+             geom_boxplot(mapping = aes(col = Broadcast.Day))+
+             labs(y= "", x = "Number of Viewers", col = "Days of Broadcast")
+
+        ```
+
+-   How many episodes should there be per season?
+
+-   What should be the color composition of your poster?
+
+    -   According to the Red, Green, Blue ( RGB % )
+
+    -   Since an RGB analysis may not give us a simplistic understanding of a model approach to the problem, we also try a Dark and White theme analysis on the posters.
+
+-   For a particular audience, what anime genre performs the best on an average?
+
+    -   One might assume that Manga performs better on average for a target audience of young adults. However, for a younger audience such as 5-10 year olds, originals like \"Shin-Chan\" and \"Doraemon\" might perform better.
+
+-   Which studio has the best performance average?
 
 ## Key Visualizations
 
@@ -199,12 +249,6 @@ for(i in 1:1e3){
 
 In our project we analysed our data and observed some visualization to know more about our data set. At first here comes our pie chart where we are categorising all the animes in different genres. Here is our pie chart
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-[Pie Chart showing different Genres of Anime](images/Picture1.png){width="599"}
-=======
-=======
->>>>>>> 9a1975bad2ebb51c361b7af4b241120ac7cd0770
 ```{r, echo=FALSE}
 library(ggplot2)
 genres <- as.data.frame(table(MainData$Genre))
@@ -233,7 +277,6 @@ ggplot(MainData,  mapping = aes(x = Score, y = Type))+
   geom_boxplot()
 ```
 
-
 From the boxplots we can clearly see that the tv has more score than any other types such as movies or ONA etc.. The second most highest score accured by the animes is special type as the median is more than any other though for the movie types, the median is more less same the special type and the 3rd quartile is higher for movies.
 
 Now let us concentrate in a comparative analysis between the acceptance of the animes according to the age groups. Here is a pie chart and some box plots, where the preferences of the genre for the 17+ audience.
@@ -250,7 +293,6 @@ ggplot(genres, aes(x="", y=Freq, fill = Var1))+
       labs(fill = "Genre")
 ```
 
-
 ```{r, echo=FALSE}
 library(ggplot2)
 manga <- as.data.frame(MainData[which(MainData$Source=="Manga"), ])
@@ -263,6 +305,7 @@ From the pie chart and the box plot, we can see that for the animes with manga a
 Another pie chart is here where the preferences of the juvenile audience is shown.
 
 ```{r, echo=FALSE}
+#| warning: false
 library(ggplot2)
 genres <- MainData[which((MainData$Source=="Manga") & (MainData$Rating=="PG - Children")), ]
 genres <- as.data.frame(table(genres$Genre[which(genres$Episode.Count<=50)]))

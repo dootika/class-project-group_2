@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Zehaan Naik, Sneha Gupta, Sorbojit, Swapnonil">
+<meta name="author" content="Zehaan Naik, Sneha Gupta, Sarbojit Das, Swapnonil Mondal">
 
 <title>Anime Alchemy</title>
 <style>
@@ -56,7 +56,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Zehaan Naik, Sneha Gupta, Sorbojit, Swapnonil </p>
+             <p>Zehaan Naik, Sneha Gupta, Sarbojit Das, Swapnonil Mondal </p>
           </div>
   </div>
     
@@ -90,7 +90,7 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 <p>This is the number of votes the show received on the website in a poll where users were asked about their top 10 favorite anime shows.</p>
 <ol start="3" type="1">
-<li><u><strong>Number of Favourites:</strong></u></li>
+<li><u><strong>Number of Favorites:</strong></u></li>
 </ol>
 <p>This is the number of users who have marked a particular show as one of their favorites on the website.</p>
 <ol start="4" type="1">
@@ -125,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
 <ol start="3" type="1">
 <li><u><strong>Season of Premier:</strong></u></li>
 </ol>
-<p>What season of the year was the anime premiered in? For example, it is a common understanding that shows meant for children perform better when released in summer. This is because many children are eager to consume TV content during their vacations.&nbsp;</p>
+<p>What season of the year was the anime premiered in? For example, it is a common understanding that shows meant for children perform better when released in summer. This is because many children are eager to consume TV content during their vacations.</p>
 <ol start="4" type="1">
 <li><u><strong>Day of Telecast:</strong></u></li>
 </ol>
@@ -169,14 +169,14 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="biases-in-our-data">Biases in Our Data</h2>
 <section id="non-uniform-distribution-of-observations" class="level5">
 <h5 class="anchored" data-anchor-id="non-uniform-distribution-of-observations">Non-Uniform Distribution of Observations</h5>
-<p>An important thing to note about our data set is that the number of observations we have for each subcategory is not uniform. For example, consider the "Genres" column. Here is a plot for the distribution of observation across the top 5 genres.</p>
+<p>An important thing to note about our data set is that the number of observations we have for each subcategory is not uniform. For example, consider the “Genres” column. Here is a plot for the distribution of observation across the top 5 genres.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="ProjectReport_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>We can observe that the “Action” genre contains the most data points, almost half of the entire data set. Hence, for any conclusion we make from the data based on the graphs where action comes out to be the most popular or most liked genre, we need to factor in this confounding variable of the number of observations.&nbsp;</p>
-<p>Hence, most of the analysis we present in our shiny app is on data subsetting to the user's needs. Also, we provide quantile analysis through box plots and base our conclusion on averages rather than the face value of data to mitigate the effect of such confounding variables.</p>
+<p>We can observe that the “Action” genre contains the most data points, almost half of the entire data set. Hence, for any conclusion we make from the data based on the graphs where action comes out to be the most popular or most liked genre, we need to factor in this confounding variable of the number of observations.</p>
+<p>Hence, most of the analysis we present in our shiny app is on data subsetting to the user’s needs. Also, we provide quantile analysis through box plots and base our conclusion on averages rather than the face value of data to mitigate the effect of such confounding variables.</p>
 <p>We can further substantiate the argument by the following plot:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -184,59 +184,95 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p>The plot clearly shows that the actual number of people who consider a particular anime to be their favorite has little correlation with the average rating that the show has on the website.</p>
-<div style="page-break-after: always;"></div>
+</section>
+<section id="subjectivity-in-the-observations" class="level5">
+<h5 class="anchored" data-anchor-id="subjectivity-in-the-observations">Subjectivity in The Observations</h5>
+<p>Anime, or any form of artwork for that matter, is subjective. It is challenging to analyze the trends in the observations because there are so few. The "likability" of a show is impossible to pre-determine, and neither is the goal of this project. We strive to analyze the patterns in consumption by the masses that can be extrapolated and used to ensure the optimum reception of our product.</p>
+<p>However, we can assume some form of correlation between factors such as ‘Number of viewers’ and ‘Number of Favorites’ as illustrated below:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 </section>
 </section>
 <section id="key-questions" class="level2">
 <h2 class="anchored" data-anchor-id="key-questions">Key Questions</h2>
-<p>Here are a few questions laid down by us looking at the dataset:</p>
+<p>The primary aim of our analysis is to help curate an optimum broadcasting and advertising plan for a show that the producer wants to release. Here are some of the questions that help us explore this concept:</p>
 <ul>
-<li><p>How do we ensure that our show does well?</p>
+<li><p>What season should you release the anime in?</p>
 <ul>
-<li><p>What season should you release the anime in?</p></li>
+<li><p>Does the viewership actually increase during summer time?</p>
+<p>In the following plot we can actually observe that the average number of viewers for shows dipped for the shows that were released during the summer months. This is an interesting observation that is counter-intuitive to our original line of thought.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div></li>
+</ul></li>
 <li><p>What day of the week should you broadcast the anime?</p>
 <ul>
-<li>During Weekends (Saturdays, Sundays)</li>
-<li>Just before the weekends (Fridays)</li>
-<li>Or during any other weekday</li>
+<li><p>During Weekends (Saturdays, Sundays)</p></li>
+<li><p>Just before the weekends (Fridays)</p></li>
+<li><p>Do week days perform better?</p>
+<p>As Illustrated below, we don’t see a clear trend when we analyse the totality of the data set. However, when we generate a similar plot for a subset of choice, then a trend might emerge, our Shiny App allows for that.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div></li>
 </ul></li>
 <li><p>How many episodes should there be per season?</p></li>
 <li><p>What should be the color composition of your poster?</p>
 <ul>
-<li>According to the Red, Green, Blue ( RGB % ).</li>
+<li><p>According to the Red, Green, Blue ( RGB % )</p></li>
+<li><p>Since an RGB analysis may not give us a simplistic understanding of a model approach to the problem, we also try a Dark and White theme analysis on the posters.</p></li>
 </ul></li>
-<li><p>For a particular audience, what anime genre performs the best on an average?</p></li>
+<li><p>For a particular audience, what anime genre performs the best on an average?</p>
+<ul>
+<li>One might assume that Manga performs better on average for a target audience of young adults. However, for a younger audience such as 5-10 year olds, originals like "Shin-Chan" and "Doraemon" might perform better.</li>
+</ul></li>
 <li><p>Which studio has the best performance average?</p></li>
-</ul></li>
 </ul>
 </section>
 <section id="key-visualizations" class="level2">
 <h2 class="anchored" data-anchor-id="key-visualizations">Key Visualizations</h2>
 <p>In our project we analysed our data and observed some visualization to know more about our data set. At first here comes our pie chart where we are categorising all the animes in different genres. Here is our pie chart</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/Picture1.png" class="img-fluid figure-img" width="599"></p>
-<figcaption class="figure-caption">Pie Chart showing different Genres of Anime</figcaption>
-</figure>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <p>Some the key points that are specifing the data set in the pie chart are as follows;</p>
 <p>(a) The split looks like this across various genres for the entire data.</p>
 <p>(b) Action is the most prominent genre.</p>
 <p>(c) The distribution of data across genres is different. Hence, the sampling must be done carefully, and the inferences must be drawn accordingly.</p>
 <p>Now let us see another diagram. The following boxplots are comparing the average rating of anime grouped across various airing types.</p>
-<p><img src="images/Picture2.png" class="img-fluid"></p>
-<p>From the boxplots we can clearly see that the tv has more score than any other types such as movies or ONA etc.. The second most highest score accured by the animes is special type as the median is more than any other though for the movie types, the median is more less same the special type and the 3rd quartile is higher for movies.</p>
-<p>Now let us concentrate in a comparative analysis between the acceptance of the Anime Shows according to the age groups. Here is a pie chart and some box plots, where the preferences of the genre for the 17+ audience.</p>
-<p><img src="images/Picture3-01.png" class="img-fluid" width="383"></p>
-<div class="quarto-figure quarto-figure-right">
-<figure class="figure">
-<p><img src="images/Picture4.1-02.png" class="img-fluid figure-img" width="490"></p>
-</figure>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
-<p>From the pie chart and the box plot, we can see that for the Anime shows with manga as their source, the action genre is more popular than the rest. Comedy, fantasy, horror and supernatural genres appeals lesser to the 17+ audience.</p>
+</div>
+<p>From the boxplots we can clearly see that the tv has more score than any other types such as movies or ONA etc.. The second most highest score accured by the animes is special type as the median is more than any other though for the movie types, the median is more less same the special type and the 3rd quartile is higher for movies.</p>
+<p>Now let us concentrate in a comparative analysis between the acceptance of the animes according to the age groups. Here is a pie chart and some box plots, where the preferences of the genre for the 17+ audience.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>From the pie chart and the box plot, we can see that for the animes with manga as their source, the action genre is more popular than the rest. Comedy, fantasy, horror and supernatural genres appeals lesser to the 17+ audience. The score of the action genre is also dispersed than many of the other genres, though the drama genre is also dispersed.</p>
 <p>Another pie chart is here where the preferences of the juvenile audience is shown.</p>
-<p><img src="images/Picture5.png" class="img-fluid"></p>
-<p>For the juvenile audience, the scenario changes. The comedy genre appeals the most, which is pretty much evident.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>For the juvenile audience, the scenario changes. The comedy genre appeals the most, with a maximum episode count 50, which is pretty much evident.</p>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
@@ -259,6 +295,7 @@ ul.task-list li input[type="checkbox"] {
 <li><p><a href="https://beebom.com/anime-types-genres-explained/">Explanation of Manga Genres</a></p></li>
 <li><p><a href="https://en.wikipedia.org/wiki/Anime">Wikipedia page for “Anime”</a></p></li>
 <li><p><a href="https://www.nypl.org/blog/2018/12/27/beginners-guide-manga">A Beginners Guide to Manga</a></p></li>
+<li><p>Fundamentals of Statistics (Volume One); A.M.Gun, M.K.Gupta, B.Dasgupta; The World Press Pvt. Ltd., 2019.</p></li>
 </ol>
 </section>
 
