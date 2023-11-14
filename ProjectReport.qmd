@@ -305,7 +305,11 @@ From the pie chart and the box plot, we can see that for the animes with manga a
 Another pie chart is here where the preferences of the juvenile audience is shown.
 
 ```{r, echo=FALSE}
+<<<<<<< HEAD
 #| warning: false
+=======
+#| warning: FALSE
+>>>>>>> 44877d2d0530b07940afb6dd98c1f2822918e355
 library(ggplot2)
 genres <- MainData[which((MainData$Source=="Manga") & (MainData$Rating=="PG - Children")), ]
 genres <- as.data.frame(table(genres$Genre[which(genres$Episode.Count<=50)]))
