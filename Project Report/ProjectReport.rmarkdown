@@ -5,6 +5,7 @@ format: html
 editor: visual
 ---
 
+
 ## Introduction
 
 The term "Anime" refers to all animated motion pictures that are produced in Japan. This is a booming industry with an ever-increasing audience and rising popularity. Naturally, this becomes an excellent opportunity for studios to make massive profits and an exciting field for one to study.
@@ -127,6 +128,7 @@ Finally, with the help of the `data.frame` function, all the scrapped columns we
 
 An important thing to note about our data set is that the number of observations we have for each subcategory is not uniform. For example, consider the "Genres" column. Here is a plot for the distribution of observation across the top 5 genres.
 
+
 ```{r}
 #| echo: false
 library(ggplot2)
@@ -142,11 +144,13 @@ ggplot(genres, aes(x="", y=Freq, fill = Var1))+
 
 ```
 
+
 We can observe that the "Action" genre contains the most data points, almost half of the entire data set. Hence, for any conclusion we make from the data based on the graphs where action comes out to be the most popular or most liked genre, we need to factor in this confounding variable of the number of observations.
 
 Hence, most of the analysis we present in our shiny app is on data subsetting to the user's needs. Also, we provide quantile analysis through box plots and base our conclusion on averages rather than the face value of data to mitigate the effect of such confounding variables.
 
 We can further substantiate the argument by the following plot:
+
 
 ```{r}
 #| echo: false
@@ -157,6 +161,7 @@ ggplot(MainData, aes(x = Favorites/mean(Favorites), y = Score))+
   labs(x = "Normalised Number of Favourites", y = "Rating")
 ```
 
+
 The plot clearly shows that the actual number of people who consider a particular anime to be their favorite has little correlation with the average rating that the show has on the website.
 
 ##### Subjectivity in The Observations
@@ -165,11 +170,13 @@ Anime, or any form of artwork for that matter, is subjective. It is challenging 
 
 However, we can assume some form of correlation between factors such as 'Number of viewers' and 'Number of Favorites' as illustrated below:
 
+
 ```{r}
 #| echo: false
 #| warning: false
 ggplot(MainData, mapping = aes(x = Members/mean(Members), y = Favorites/mean(Favorites))) + geom_point() + xlim(0,5) + labs(x = "Normalised Number of Viewers", y = "Normalised Number of Favorites") 
 ```
+
 
 ## Key Questions
 
@@ -211,6 +218,7 @@ In the following plot we can actually observe that the average number of viewers
 
 Another reasoning can be the fact that this data is collected from users residing in various countries. Hence, the lengths and the time of the year where these viewers usually enjoy their vacations might be different. Hence, we do not observe a clear trend.
 
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -226,9 +234,11 @@ ggplot(Seasons, mapping = aes(x = Var1, y = Avg/mean(Avg))) +
   labs(x = "Season", y = "Normalised Number of Viewers")
 ```
 
+
 Let us try and find similar trends in the day-of-week variable.
 
 As Illustrated below, we don't see a clear trend when we analyse the totality of the data set. However, when we generate a similar plot for a subset of choice, then a trend might emerge, our Shiny App allows for that.
+
 
 ```{r}
 #| echo: false
@@ -245,9 +255,11 @@ ggplot(subdata,
 
 ```
 
+
 Another reasoning for a lack of trend might be the fact that a good chunk of people often do not consume anime episodes on the day they were aired. Rather, they watch these episodes at their leisure on repeated telecast and recordings. Hence, we might not get a very clear trend.
 
 However, a fun bit of analysis that we can do to make the same plot as before but with the value points as "Rating" instead of "Viewers". Here we can observe that Monday and Wednesday have much higher average "Likability" as compared to other days. Our reasoning for this is that people are extremely tired on these particular days and are refreshed by their favorite show, hence tend to give a higher score. However, as mentioned before, this is just a goofy analysis and a clear causation for the trend is not definite.
+
 
 ```{r}
 #| echo: false
@@ -263,9 +275,11 @@ ggplot(subdata,
      labs(y= "", x = "Rating", col = "Days of Broadcast")
 ```
 
+
 ##### Number of Episodes per Season
 
 We could not obtain a clear trend between the number of episodes per season and either of the success parameters ("Rating", "Number of Viewers", etc.)
+
 
 ```{r}
 #| echo: false
@@ -286,11 +300,13 @@ ggplot(catagories,
     labs( y = "Average No. of Favorites", x = "Number of Episodes")
 ```
 
+
 This was the only variable where we did not expect a clear trend and we got none.
 
 ##### Color Analysis of the Posters
 
 Let us first try and analyze the hypothesis that "Action" genre anime tend to have a greater red color composition.
+
 
 ```{r}
 #| echo: false
@@ -314,7 +330,9 @@ ggplot(genres,
 
 ```
 
+
 We do not obtain a clear trend here for a simple reason. Our estimate for red composition numerically has a bias. Even pure white would be registered as having a high red composition. Hence, this analysis is flawed. To obtain a simpler analysis we consider Dark and White theme analysis on the posters.
+
 
 ```{r}
 #| echo: false
@@ -337,7 +355,9 @@ ggplot(genres[1:7,],
   labs(x= "Genres", y = "Percentage Dark Composition")
 ```
 
+
 Here, we can observe interesting trends. For example the "Mystery" genre seems to have darker posters at at average (Just like our assumption). While the comedy genre has lighter posters. This enables us to think more on the lines of how light and dark colors affect our psychology and how this fact may be exploited to create a greater demand for our product.
+
 
 ```{r, echo=FALSE}
 
@@ -347,9 +367,11 @@ for(i in 1:1e3){
 }
 ```
 
+
 ##### Mode of Telecast
 
 Now let us see another diagram. The following BoxPlots are comparing the average rating of anime grouped across various airing types.
+
 
 ```{r, echo=FALSE}
 
@@ -358,11 +380,13 @@ ggplot(MainData,
   geom_boxplot(aes(col = Type))
 ```
 
+
 From the diagram above it is evident that TV amasses the largest crowd when it comes to Anime broadcasting. This is perhaps due to TV being the traditional airing platform for Anime and the audience having developed a sense of comfort with the same. However, the data does not take into account the fact that some shows are also aired on OTT platforms and uses the umbrella term of 'TV' for such shows as well. Hence, it is crucial to know that these platforms also offer a great audience, however, they are not in the scope of our analysis.
 
 ##### Audience Vs Genre Popularity
 
 A natural question that we want to answer is the question of which genre performs the best in various target demographics. And the analysis for the same is present below.
+
 
 ```{r}
 #| echo: false
@@ -395,7 +419,9 @@ ggplot(ageGroups,
   labs(x = "Target Demographic", y = "Average Rating", fill = "Most Liked Genre")
 ```
 
+
 We can do a similar analysis but this time with the "Average Viewership" as the criteria. The previous graph tells us more about the "Likability" of a particular genre and this graph gives us a more detailed analysis on how many people would actually end up watching our program should we choose the most popular genre.
+
 
 ```{r}
 #| echo: false
@@ -426,9 +452,11 @@ ggplot(ageGroups,
   labs(x = "Target Demographic", y = "Average Viewership", fill = "Most Popular Genre")
 ```
 
+
 ##### Studios Vs Popularity
 
 We also analysed the performance of the top Anime production studios to compare their average viewership over the course of last 10-20 years. Here we observe that "Bones" has the highest average viewership, they are the producers of "Full Metal Alchemist", the number one performer on our list, and the popular series "My Hero Academia".
+
 
 ```{r}
 #| echo: false
@@ -450,9 +478,11 @@ ggplot(studios,
   labs(x = "Genre", y = "Average Viewership")
 ```
 
+
 ##### Analysis from the Shiny App
 
 Our Shiny App is designed to allow the user to create multiple subsets of the data that we have collected and observe the trends that we have discussed above for that specific chunk of data. For example, we illustrate a graph that illustrates the composition of shows currently airing targeted at the juvenile audience.
+
 
 ```{r, echo=FALSE}
 #| warning: false
@@ -467,6 +497,7 @@ ggplot(genres, aes(x="", y=Freq, fill = Var1))+
   theme_void()+
   labs(fill = "Genre")
 ```
+
 
 We can clearly see that most of the shows in the market belong to the comedy genre.
 
@@ -501,3 +532,4 @@ This project gives us great insights into the world of Anime. Exploring this uni
 5.  [A Beginners Guide to Manga](https://www.nypl.org/blog/2018/12/27/beginners-guide-manga)
 
 6.  Fundamentals of Statistics (Volume One); A.M.Gun, M.K.Gupta, B.Dasgupta; The World Press Pvt. Ltd., 2019.
+
