@@ -152,15 +152,15 @@ ul.task-list li input[type="checkbox"] {
 <li><p><strong><code>gsub</code></strong> function replaced all occurrences of patterns in character vectors with pre-specified replacements.</p></li>
 <li><p><strong><code>grepl</code></strong> function checked for the presence of patterns in character vectors. It returned a logical vector indicating patterns in each element.s</p></li>
 <li><p><strong><code>sapply</code></strong> function was applied to a function to each element of a list or vector and simplified the result.</p></li>
-<li><p><strong><code>substring</code></strong> function was used to extract or replace substrings from a character vector.</p></li>
+<li><p><strong><code>substring</code></strong> function was used to extract or replace sub-strings from a character vector.</p></li>
 <li><p><strong><code>paste</code></strong> function was used to concatenate multiple strings into a single string.</p></li>
-<li><p><strong><code>strsplit</code></strong> function was used to split a character string into substrings based on a specified delimiter.</p></li>
+<li><p><strong><code>strsplit</code></strong> function was used to split a character string into sub-strings based on a specified delimiter.</p></li>
 <li><p><code>str_squish</code> function removed leading, trailing, and repeated white space characters from a character vector.</p></li>
-<li><p><strong><code>trimws</code></strong> function was used to remove leading and trailing whitespaces (including spaces, tabs, and newlines) from character strings.</p></li>
+<li><p><strong><code>trimws</code></strong> function was used to remove leading and trailing white-spaces (including spaces, tabs, and newlines) from character strings.</p></li>
 </ol></li>
 <li><p>The data columns were converted to their correct types. For example, numeric real-valued data was converted to numeric type.</p></li>
 <li><p>Many incorrect entries in columns related to theme, demography, and genre with the format “ExampleExample” were converted into “Example”.</p></li>
-<li><p>To calculate the airing duration between anime shows, <code>difftime</code> function was used. The ith element of paired columns was imputed in its function parameter with the difference unit in week rounded up to 2 decimal places.</p></li>
+<li><p>To calculate the airing duration between anime shows, <code>difftime</code> function was used. The i<sub>th</sub> element of paired columns was imputed in its function parameter with the difference unit in week rounded up to 2 decimal places.</p></li>
 <li><p>We changed the value “None found, add some” to <strong>NA</strong> in the Licensor column.</p></li>
 </ul>
 <p>Finally, with the help of the <code>data.frame</code> function, all the scrapped columns were bound horizontally and stored in an <em>anime_df</em> variable.</p>
@@ -202,96 +202,137 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><p>What season should you release the anime in?</p>
 <ul>
-<li><p>Does the viewership actually increase during summer time?</p>
-<p>In the following plot we can actually observe that the average number of viewers for shows dipped for the shows that were released during the summer months. This is an interesting observation that is counter-intuitive to our original line of thought.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="ProjectReport_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
-</div>
-</div></li>
+<li>Does the viewership actually increase during summer time?</li>
 </ul></li>
 <li><p>What day of the week should you broadcast the anime?</p>
 <ul>
 <li><p>During Weekends (Saturdays, Sundays)</p></li>
 <li><p>Just before the weekends (Fridays)</p></li>
-<li><p>Do week days perform better?</p>
-<p>As Illustrated below, we don’t see a clear trend when we analyse the totality of the data set. However, when we generate a similar plot for a subset of choice, then a trend might emerge, our Shiny App allows for that.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="ProjectReport_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
-</div>
-</div></li>
+<li><p>Do week days perform better?</p></li>
 </ul></li>
 <li><p>How many episodes should there be per season?</p></li>
 <li><p>What should be the color composition of your poster?</p>
 <ul>
-<li><p>According to the Red, Green, Blue ( RGB % )</p></li>
-<li><p>Since an RGB analysis does not give us a clear trend, we also try a Dark and White theme analysis on the posters.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="ProjectReport_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>Here, we can observe interesting trends. For example the “Mystery” genre seems to have darker posters at at average. While the comedy genre has lighter posters. This enables us to think more on the lines of how light and dark colors affect our psychology and how this fact may be exploited to create a greater demand for our product.</p></li>
+<li><p>What is the RGB composition for posters of various genres?</p></li>
+<li><p>Do action posters have a higher red color composition?</p></li>
+<li><p>Can we also present claim “Mystery” genre anime to have “Darker” posters?</p></li>
 </ul></li>
 <li><p>For a particular audience, what anime genre performs the best on an average?</p>
 <ul>
-<li>One might assume that Manga performs better on average for a target audience of young adults. However, for a younger audience such as 5-10 year-old children, originals like “Shin-Chan” and “Doraemon” might perform better.</li>
+<li>One might assume that Manga performs better on average for a target audience of young adults. However, for a younger audience such as 5-10 year-old children, originals like “Shin-Chan” and “Doraemon” might perform better. Is this actually the case?</li>
 </ul></li>
 <li><p>Which studio has the best performance average?</p></li>
 </ul>
 </section>
 <section id="key-visualizations" class="level2">
 <h2 class="anchored" data-anchor-id="key-visualizations">Key Visualizations</h2>
-<p>In our project we analysed our data and observed some visualization to know more about our data set. At first here comes our pie chart where we are categorising all the animes in different genres. Here is our pie chart</p>
+<section id="airingpremiere-time" class="level5">
+<h5 class="anchored" data-anchor-id="airingpremiere-time">Airing/Premiere Time</h5>
+<p>In the following plot we can actually observe that the average number of viewers dipped for the shows that were released during the summer months. This is an interesting observation that is counter-intuitive to our original line of thought which was to assume that viewership increases during summers.</p>
+<p>Another reasoning can be the fact that this data is collected from users residing in various countries. Hence, the lengths and the time of the year where these viewers usually enjoy their vacations might be different. Hence, we do not observe a clear trend.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let us try and find similar trends in the day-of-week variable.</p>
+<p>As Illustrated below, we don’t see a clear trend when we analyse the totality of the data set. However, when we generate a similar plot for a subset of choice, then a trend might emerge, our Shiny App allows for that.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Another reasoning for a lack of trend might be the fact that a good chunk of people often do not consume anime episodes on the day they were aired. Rather, they watch these episodes at their leisure on repeated telecast and recordings. Hence, we might not get a very clear trend.</p>
+<p>However, a fun bit of analysis that we can do to make the same plot as before but with the value points as “Rating” instead of “Viewers”. Here we can observe that Monday and Wednesday have much higher average “Likability” as compared to other days. Our reasoning for this is that people are extremely tired on these particular days and are refreshed by their favorite show, hence tend to give a higher score. However, as mentioned before, this is just a goofy analysis and a clear causation for the trend is not definite.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="number-of-episodes-per-season" class="level5">
+<h5 class="anchored" data-anchor-id="number-of-episodes-per-season">Number of Episodes per Season</h5>
+<p>We could not obtain a clear trend between the number of episodes per season and either of the success parameters (“Rating”, “Number of Viewers”, etc.)</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This was the only variable where we did not expect a clear trend and we got none.</p>
+</section>
+<section id="color-analysis-of-the-posters" class="level5">
+<h5 class="anchored" data-anchor-id="color-analysis-of-the-posters">Color Analysis of the Posters</h5>
+<p>Let us first try and analyze the hypothesis that “Action” genre anime tend to have a greater red color composition.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="ProjectReport_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Some the key points that are specifing the data set in the pie chart are as follows;</p>
-<p>(a) The split looks like this across various genres for the entire data.</p>
-<p>(b) Action is the most prominent genre.</p>
-<p>(c) The distribution of data across genres is different. Hence, the sampling must be done carefully, and the inferences must be drawn accordingly.</p>
-<p>Now let us see another diagram. The following boxplots are comparing the average rating of anime grouped across various airing types.</p>
+<p>We do not obtain a clear trend here for a simple reason. Our estimate for red composition numerically has a bias. Even pure white would be registered as having a high red composition. Hence, this analysis is flawed. To obtain a simpler analysis we consider Dark and White theme analysis on the posters.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="ProjectReport_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>From the boxplots we can clearly see that the tv has more score than any other types such as movies or ONA etc.. The second most highest score accured by the animes is special type as the median is more than any other though for the movie types, the median is more less same the special type and the 3rd quartile is higher for movies.</p>
-<p>Now let us concentrate in a comparative analysis between the acceptance of the animes according to the age groups. Here is a pie chart and some box plots, where the preferences of the genre for the 17+ audience.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="ProjectReport_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<p>Here, we can observe interesting trends. For example the “Mystery” genre seems to have darker posters at at average (Just like our assumption). While the comedy genre has lighter posters. This enables us to think more on the lines of how light and dark colors affect our psychology and how this fact may be exploited to create a greater demand for our product.</p>
+</section>
+<section id="mode-of-telecast" class="level5">
+<h5 class="anchored" data-anchor-id="mode-of-telecast">Mode of Telecast</h5>
+<p>Now let us see another diagram. The following BoxPlots are comparing the average rating of anime grouped across various airing types.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="ProjectReport_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>From the pie chart and the box plot, we can see that for the animes with manga as their source, the action genre is more popular than the rest. Comedy, fantasy, horror and supernatural genres appeals lesser to the 17+ audience. The score of the action genre is also dispersed than many of the other genres, though the drama genre is also dispersed.</p>
-<p>Another pie chart is here where the preferences of the juvenile audience is shown.</p>
+<p>From the diagram above it is evident that TV amasses the largest crowd when it comes to Anime broadcasting. This is perhaps due to TV being the traditional airing platform for Anime and the audience having developed a sense of comfort with the same. However, the data does not take into account the fact that some shows are also aired on OTT platforms and uses the umbrella term of ‘TV’ for such shows as well. Hence, it is crucial to know that these platforms also offer a great audience, however, they are not in the scope of our analysis.</p>
+</section>
+<section id="audience-vs-genre-popularity" class="level5">
+<h5 class="anchored" data-anchor-id="audience-vs-genre-popularity">Audience Vs Genre Popularity</h5>
+<p>A natural question that we want to answer is the question of which genre performs the best in various target demographics. And the analysis for the same is present below.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="ProjectReport_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>For the juvenile audience, the scenario changes. The comedy genre appeals the most, with a maximum episode count 50, which is pretty much evident.</p>
+<p>We can do a similar analysis but this time with the “Average Viewership” as the criteria. The previous graph tells us more about the “Likability” of a particular genre and this graph gives us a more detailed analysis on how many people would actually end up watching our program should we choose the most popular genre.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="studios-vs-popularity" class="level5">
+<h5 class="anchored" data-anchor-id="studios-vs-popularity">Studios Vs Popularity</h5>
+<p>We also analysed the performance of the top Anime production studios to compare their average viewership over the course of last 10-20 years. Here we observe that “Bones” has the highest average viewership, they are the producers of “Full Metal Alchemist”, the number one performer on our list.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="analysis-from-the-shiny-app" class="level5">
+<h5 class="anchored" data-anchor-id="analysis-from-the-shiny-app">Analysis from the Shiny App</h5>
+<p>Our Shiny App is designed to allow the user to create multiple subsets of the data that we have collected and observe the trends that we have discussed above for that specific chunk of data. For example, we illustrate a graph that illustrates the composition of shows currently airing targeted at the juvenile audience.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can clearly see that most of the shows in the market belong to the comedy genre.</p>
+</section>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>Concluding this project we were able to build an app which would help us to make different templates of the preferred combination of different characteristic variables (genre, broadcast day, studios, etc.. ), we used in our analysis.</p>
-<p>We can notice that there is no specific combination of characteristics which guarantees a hit anime but it depends on how the person who is making the Anime wants to make it.</p>
-<p>our project focused on optimizing the success of an anime show, considering key factors such as the season of release, the day of the week, the number of episodes, and the most suitable genre for a specific target audience. We found that:</p>
+<p>Concluding this project, we built an app that would help us make different templates of the preferred combination of various characteristic variables (genre, broadcast day, release season, duration per episode, etc.) to ensure the best response to the new show statistically.</p>
+<p>We understand that no specific combination of the parameters mentioned above would guarantee success for our product. Like most other art forms, anime is highly subjective, so audience perception would differ. However, we analyzed trends in the data that help us exploit natural factors like when people are free and when people like to consume entertainment-based content.</p>
+<p>While analyzing the data in its totality, we came across many exciting trends:</p>
 <ol type="1">
-<li>Anime are most popular in winter and summer season.</li>
-<li>The choice of the day for releasing episodes can impact viewership.</li>
-<li>Action and adventure genre are more popular in 17+ audience while children are more interested in comedy genre.</li>
-<li>Dark colors dominate action and horror genre whereas no clear trend could be observed in other genres.</li>
+<li><p>There is no clear trend in the average number of viewers for a show regarding which season the anime was released. Adding to that, we observe that the average number of viewers for shows released during the summer months is slightly lower!&nbsp;</p>
+<p>We found a similar lack of trend in the “Day of the Week” analysis. From this, we concluded that many people actually watch these shows at their leisure, and hence, the release season or airing time doesn’t play a key role in their perception amongst the masses.</p></li>
+<li><p>The “Light and Dark” theme analysis of the posters illustrated how the “Mystery” and&nbsp; “Action” genres have darker posters, and the “Comedy” genre has the lightest posters on average. This shows a correlation between the genre and the mood of the poster since the trend is intuitive. We can conclude that there is a link between a particular genre and the spirit it wants to instill and the color composition of its poster.</p></li>
+<li><p>We observe that TV continues to amass the largest number of viewers and stated that this number is cumulative of traditional TV and other OTT platforms. Hence, we can conclusively say that airing a show on TV ensures the best chance at a larger audience.</p></li>
 </ol>
-<p>In essence, the success of an anime show is contingent on a meticulous blend of these factors. By strategically navigating the timing, episode count, and genre selection, we aim to optimize the viewing experience, ensuring the show not only captures the attention of the intended audience but also stands out in the competitive landscape. The culmination of these insights offers a comprehensive strategy to maximize the overall success and impact of the anime production.</p>
+<p>This project gives us great insights into the world of Anime. Exploring this universe helps us understand how various population strata react to multiple entertainment content genres and how to optimize the broadcasting and advertising for any product we want to launch in the market.</p>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
