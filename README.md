@@ -12,6 +12,8 @@ Here is a quick runthrough of all the files present in this folder.
    This folder contains our R Shiny App. The name of the app file is <code>app.r</code>
 4. `Finaldata Files`
    These are the files that store our final data. This data is cleaned, arranged and can be studied in the raw form for any further analysis that the reader wants to explore.
+5. `Project Presentation`
+	This folder contains our presentation pdf. 
 
 Thanks a lot for reading this.
 
