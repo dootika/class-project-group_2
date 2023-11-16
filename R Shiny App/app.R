@@ -76,6 +76,8 @@ ui <- fluidPage(
       tabsetPanel(
         tabPanel("Box Plot", plotOutput("Barplot")),
         tabPanel("Pie Chart", plotOutput("PieChart")),
+        tabPanel("Theme Analysis", plotOutput("GrayScalePlot")),
+        tabPanel("Studio Analysis", plotOutput("StudioPlot")),
         tabPanel("Scatter Plot", plotOutput("ScatPlot")),
         tabPanel("Table", tableOutput("TablePlot"))
       )
@@ -240,7 +242,48 @@ server <- function(input, output) {
                         (MainData$Rating == input$AgeGroup)&
                         (MainData$Source == input$Source)
     )
+    genres <- as.data.frame(table(subdata$Genre))
+    genres <- genres[order(genres$Freq,decreasing = TRUE),]
     
+    for(i in 1:length(genres$Var1)){
+      subdata = subset(MainData,
+                       MainData$Genre == genres$Var1[i])
+      avg = mean(subdata$Percent.white)
+      genres$AvgPW[i] = avg
+      genres$AVGPB[i] = 1-avg
+    }
+    
+    ggplot(genres[1:7,],
+           mapping = aes(x = Var1, y = AVGPB*100))+
+      geom_bar(stat = "identity")+
+      labs(x= "Genres", y = "Percentage Dark Composition")
+  })
+  
+  output$StudioPlot <- renderPlot({
+    subdata <- subset(MainData, 
+                      switch (
+                        input$XaxisMetric,
+                        `No. Of Episodes` = (MainData$Episode.Count<input$Count),
+                        `Studio` = (MainData$Studio == input$Count),
+                        `Duration per Episode` = (MainData$Duration.per.Episode<input$Count),
+                        `Broadcast Time` = TRUE
+                      )&
+                        (MainData$Rating == input$AgeGroup)&
+                        (MainData$Source == input$Source)
+    )
+    studios <- as.data.frame(table(subdata$Studio))
+    studios <- studios[order(studios$Freq, decreasing = TRUE),]
+    
+    for(i in 1:length(studios$Var1)){
+      subdata_ <- subset(subdata,
+                         subdata$Studio == studios$Var1[i])
+      studios$Avg[i] <- mean(subdata_$Members)
+    }
+    
+    ggplot(studios[1:5,],
+           mapping = aes(x = Var1, y = Avg))+
+      geom_bar(stat = "identity")+
+      labs(x = "Genre", y = "Average Viewership")
   })
 
 }

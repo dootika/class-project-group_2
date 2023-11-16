@@ -107,7 +107,7 @@ The essential steps in our data preparation and cleaning are as follows:
 
     6.  **`strsplit`** function was used to split a character string into sub-strings based on a specified delimiter.
 
-    7.  `str_squish` function removed leading, trailing, and repeated white space characters from a character vector.
+    7.  **`str_squish`** function removed leading, trailing, and repeated white space characters from a character vector.
 
     8.  **`trimws`** function was used to remove leading and trailing white-spaces (including spaces, tabs, and newlines) from character strings.
 
